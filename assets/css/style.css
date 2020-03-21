@@ -1,0 +1,16 @@
+footer a{color: white;}
+footer a:hover{color: white;}
+footer{margin-top: 20px;}
+
+.container-fluid {
+  width:100%;
+   padding-right: 0em;
+   padding-left: 0em;
+   margin-right:auto;
+   margin-left:auto;
+}
+#sbtn{
+  border-radius: 0px;
+    padding: 0px;
+  
+}

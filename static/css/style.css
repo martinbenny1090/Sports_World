@@ -1,0 +1,25 @@
+footer a{color: white;}
+footer a:hover{color: white;}
+footer{margin-top: 20px;}
+
+.fdiv {
+  width:100%;
+   padding-right: 0em;
+   padding-left: 0em;
+   margin-right:auto;
+   margin-left:auto;
+}
+#sbtn{
+  border-radius: 0px;
+    padding: 0px;
+  
+}
+.navbar-brand{
+  padding:0px;
+  margin-top: 0px;
+  margin-bottom: 0px;
+}
+.navbar-btn1{
+  margin-right: 20px;
+  box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
+}
