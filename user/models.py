@@ -14,10 +14,13 @@ LABEL_CHOICES = (
 class Item(models.Model):
     title = models.CharField(max_length=100)
     price = models.FloatField()
+    discount_price = models.FloatField(blank=True, null=True)
     quantity = models.IntegerField()
     label = models.CharField(choices=LABEL_CHOICES, max_length=1, default="")
     category = models.CharField(max_length=50, default="")
     slug = models.SlugField()
+    description = models.TextField()
+    image = models.ImageField(default="")
 
     def __str__(self):
         return self.title
