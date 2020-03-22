@@ -1,5 +1,6 @@
 from django.conf import settings
 from django.db import models
+from django.shortcuts import reverse
 
 # Create your models here.
 
@@ -16,9 +17,15 @@ class Item(models.Model):
     quantity = models.IntegerField()
     label = models.CharField(choices=LABEL_CHOICES, max_length=1, default="")
     category = models.CharField(max_length=50, default="")
+    slug = models.SlugField()
 
     def __str__(self):
         return self.title
+
+    def get_absolute(self):
+        return reverse("user:product", kwargs={
+            'slug': self.slug   
+        })
 
 
 class OrderItem(models.Model):
