@@ -3,15 +3,17 @@ from django.http import HttpResponse
 from django.contrib import messages
 from django.contrib.auth.models import User, auth
 from .models import Item, OrderItem, Order
+from django.views.generic import ListView, DetailView
 
 # def owner(request):
 #     return render(request, 'owner.html')
+class HomeView(ListView):
+    model = Item
+    template_name = "home.html"
 
-def home(request):
-    context = {
-        'items': Item.objects.all()
-    }
-    return render(request, 'home.html', context)
+class ItemDetailView(DetailView):
+    model = Item
+    template_name = "product.html"
 
     
 def product(request):
