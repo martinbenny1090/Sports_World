@@ -2,9 +2,24 @@ from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from django.contrib import messages
 from django.contrib.auth.models import User, auth
+from .models import Item, OrderItem, Order
 
 # def owner(request):
 #     return render(request, 'owner.html')
+
+def home(request):
+    context = {
+        'items': Item.objects.all()
+    }
+    return render(request, 'home.html', context)
+
+    
+def product(request):
+    context = {
+        'items': Item.objects.all()
+    }
+    return render(request, 'product.html', context)
+
 
 def logout(request):
     auth.logout(request)
@@ -59,14 +74,6 @@ def register(request):
 
 
 
-
-
-def home(request):
-    return render(request, 'home.html')
-
-    
-def product(request):
-    return render(request, 'product.html')
 
 def offer(request):
     return render(request, 'offer.html')
