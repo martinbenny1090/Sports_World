@@ -1,12 +1,6 @@
 {% extends 'footer.html'%}
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Sport World</title>
-    {% block extra_head %}
+
+    <!-- {% block extra_head %}
       <style>
         .pd{
           padding-top: 20px;
@@ -22,16 +16,16 @@
         margin-top: 20px;}
       </style>
       {% endblock %}
-</head>
 
 
-<body>
+
+
     {% block content %}
 
     
     
-    <!--Section: Products v.3-->
-    <section class="text-center mb-4 pd">
+    Section: Products v.3-->
+    <!-- <section class="text-center mb-4 pd">
 
       <div class="row wow fadeIn">
 
@@ -41,7 +35,6 @@
           <div class="card">
 
             <div class="view overlay">
-              {% comment %} <img src="https://mdbootstrap.com/img/Photos/Horizontal/E-commerce/Vertical/12.jpg" class="card-img-top" {% endcomment %}
               <img src="{{ item.image.url }}" class="card-img-top">
               <a href="{{ item.get_absolute_url }}">
                 <div class="mask rgba-white-slight"></div>
@@ -77,13 +70,11 @@
         </div>
         {% endfor %}
       </div>
-    </section>
+    </section> -->
     <!--Section: Products v.3-->
   
    
     <!--new product end-->
-    </div>
+
  {% endblock %}
  
-</body>
-</html>

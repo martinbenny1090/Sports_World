@@ -1,0 +1,62 @@
+.pro{
+    align-items: center;
+    
+}
+.newarrival{
+    background: green;
+    width: 50px;
+    color: white;
+    font-size: 12px;
+    font-weight: bold;
+}
+.col-md-7 h2{
+    color: #555;
+    
+}
+.price{
+    color: rgb(14, 13, 13);
+    font-size: 20px;
+    font-weight: bold;
+    padding-top: 10px;
+}
+input{
+    border: 1px solid;
+    font-weight: bold;
+    height: 33px;
+    text-align: center;
+    width: 30px;
+}
+.cart{
+    background: royalblue;
+    color: whitesmoke;
+    font-size: 15px;
+    margin-left: 20px;
+}
+
+body {
+    background-image: linear-gradient(to top, #ecedee 0%, #eceeef 75%, #e7e8e9 100%);
+    min-height: 10vh;
+    font: normal 16px sans-serif;
+    padding: 20px 0;
+}
+.container.gallery-container {
+    margin-top: 20px;
+    padding-right: 50px;
+    padding-top: 20px;
+    padding-bottom: 20px;
+    background-color: #fff;
+    color: #35373a;
+    min-height: 10vh;
+    border-radius: 10px;
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.06);
+}
+.page-description{
+    font-size: 25px;
+    font-weight: bold;
+}
+.similar{
+    padding-top: 20px;
+    text-align: center;
+    font-size: 25px;
+    font-weight: bolder;
+}
