@@ -20,7 +20,7 @@ class Item(models.Model):
     category = models.CharField(max_length=50, default="")
     slug = models.SlugField()
     description = models.TextField()
-    image = models.ImageField(upload_to="images", default="")
+    # image = models.ImageField(upload_to="images", default="")
 
     def __str__(self):
         return self.title
