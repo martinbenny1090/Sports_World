@@ -18,9 +18,9 @@ class Item(models.Model):
     quantity = models.IntegerField()
     label = models.CharField(choices=LABEL_CHOICES, max_length=1, default="")
     category = models.CharField(max_length=50, default="")
-    slug = models.SlugField()
+    # slug = models.SlugField()
     description = models.TextField()
-    # image = models.ImageField(upload_to="images", default="")
+    image = models.ImageField(upload_to="images", default="")
 
     def __str__(self):
         return self.title
@@ -46,4 +46,5 @@ class Order(models.Model):
 
     def __str__(self):
         return self.username
+
 

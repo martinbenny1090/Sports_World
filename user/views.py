@@ -7,20 +7,20 @@ from django.views.generic import ListView, DetailView
 
 # def owner(request):
 #     return render(request, 'owner.html')
-class HomeView(ListView):
-    model = Item
-    template_name = "home.html"
+# class HomeView(ListView):
+#     model = Item
+#     template_name = "home.html"
 
-class ItemDetailView(DetailView):
-    model = Item
-    template_name = "product.html"
+
+# class ItemDetailView(DetailView):
+#     model = Item
+#     template_name = "product.html"
 
     
-def product(request):
-    context = {
-        'items': Item.objects.all()
-    }
-    return render(request, 'product.html', context)
+def home(request):
+    items = Item.objects.all()
+    
+    return render(request, 'home.html', {'items': items})
 
 
 def logout(request):
@@ -85,3 +85,13 @@ def about(request):
 
 def contact(request):
     return render(request, 'contact-us.html')
+# def contact(request):
+#     if request.method=="POST":
+#         name = request.POST.get('name', '')
+#         email = request.POST.get('email', '')
+#         phone = request.POST.get('phone', '')
+#         desc = request.POST.get('desc', '')
+#         print(name, email, phone, desc)
+#         contact = Contact(name=name, email=email, phone=phone, desc=desc)
+#         contact.save()
+#     return render(request, 'contact.html')
