@@ -15,6 +15,15 @@ from django.views.generic import ListView, DetailView
 # class ItemDetailView(DetailView):
 #     model = Item
 #     template_name = "product.html"
+# def productview(request, myid):
+#     #fetch product using id
+#     product = Product.objects.filter(id=myid)
+#    # print(product);
+#     return render(request, 'productview.html', {'product': product[0]})
+
+def product(request,myid):
+    item = Item.objects.filter(id=myid)
+    return render(request, 'product.html', {'item': item[0]})
 
     
 def home(request):

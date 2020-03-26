@@ -1,4 +1,4 @@
-{% extends 'footer.html'%}
+{% extends 'nav.html'%}
 
      {% block extra_head %}
 
@@ -9,19 +9,18 @@
 
 
     {% block content %}
-      <div class="container-fluid ca">
+      <div class="container ca">
         <div class="row">
           {% for item in items %}
             <div class="col-sm-3">
                 <div class="card" style="width: 18rem;">
-                     <img class="card-img-top" src='/media/images/{{item.image}}' alt="Card image cap"> 
+                     <img src='{{ item.url }}' class="card-img-top" alt="Card image cap"> 
                     <div class="card-body">
-                      <h5 class="card-title">{{item.title}}</h5>
+                      <a href="/product/{{item.id}}"<h5 class="card-title">{{item.title}}</h5>
+                        <!-- href="/shopping/products/{{i.id}} -->
                       <p class="card-text">{{item.category}}</p>
-                      <a href="product/" class="btn btn-primary">Go somewhere</a>
                     </div>
-                  </div>
-                  
+                  </div>   
             </div>
             {% endfor %}
           </div>
