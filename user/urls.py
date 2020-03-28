@@ -13,6 +13,6 @@ urlpatterns = [
     path('about', views.about),
     path('contact', views.contact),
     # path('owner', views.owner, name="owner"),
-    # 'products/<int:myid>'
+    path('add-to-cart/<slug>', views.add_to_cart, name="add-to-cart")
 
 ]

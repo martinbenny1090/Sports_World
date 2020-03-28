@@ -15,7 +15,7 @@ class Item(models.Model):
     title = models.CharField(max_length=100)
     price = models.FloatField()
     discount_price = models.FloatField(blank=True, null=True)
-    quantity = models.IntegerField()
+    stock = models.IntegerField(default=1)
     label = models.CharField(choices=LABEL_CHOICES, max_length=1, default="")
     category = models.CharField(max_length=50, default="")
     slug = models.SlugField()
@@ -30,12 +30,19 @@ class Item(models.Model):
             'slug': self.slug   
         }) 
 
+    def get_add_to_cart_url(self):
+        return reverse("user:add-to-cart", kwargs={
+            'slug': self.slug   
+        })
+        
+
 
 class OrderItem(models.Model):
     item = models.ForeignKey(Item, on_delete=models.CASCADE)
+    quantity = models.IntegerField(default=1)
 
     def __str__(self):
-        return self.title
+        return f"{self.quantity} of {self.item.title}"
 
 class Order(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
