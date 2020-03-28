@@ -1,36 +1,23 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponse
 from django.contrib import messages
 from django.contrib.auth.models import User, auth
 from .models import Item, OrderItem, Order
 from django.views.generic import ListView, DetailView
 
-# def owner(request):
-#     return render(request, 'owner.html')
-# class HomeView(ListView):
-#     model = Item
-#     template_name = "home.html"
-
-
-# class ItemDetailView(DetailView):
-#     model = Item
-#     template_name = "product.html"
-# def productview(request, myid):
-#     #fetch product using id
-#     product = Product.objects.filter(id=myid)
-#    # print(product);
-#     return render(request, 'productview.html', {'product': product[0]})
-
-def product(request,myid):
-    item = Item.objects.filter(id=myid)
-    return render(request, 'product.html', {'item': item[0]})
-
+def add_to_cart(request, slug):
     
-def home(request):
-    items = Item.objects.all()
-    
-    return render(request, 'home.html', {'items': items})
 
+
+class HomeView(ListView):
+    model = Item
+    template_name = "home.html"
+
+
+class ItemDetailView(DetailView):
+    model = Item
+    template_name = "product.html"
+    
 
 def logout(request):
     auth.logout(request)
@@ -81,9 +68,6 @@ def register(request):
 
     else:
         return render(request, 'Register.html')
-
-
-
 
 
 def offer(request):

@@ -12,24 +12,23 @@ LABEL_CHOICES = (
 
 
 class Item(models.Model):
-    item_id = models.AutoField
     title = models.CharField(max_length=100)
     price = models.FloatField()
     discount_price = models.FloatField(blank=True, null=True)
     quantity = models.IntegerField()
     label = models.CharField(choices=LABEL_CHOICES, max_length=1, default="")
     category = models.CharField(max_length=50, default="")
-    # slug = models.SlugField()
+    slug = models.SlugField()
     description = models.TextField()
-    image = models.ImageField(upload_to="images", default="")
+    
 
     def __str__(self):
         return self.title
 
-    def get_absolute(self):
+    def get_absolute_url(self):
         return reverse("user:product", kwargs={
             'slug': self.slug   
-        })
+        }) 
 
 
 class OrderItem(models.Model):
