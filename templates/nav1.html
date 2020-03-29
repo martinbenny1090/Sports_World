@@ -9,7 +9,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
     <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"  crossorigin="anonymous">
     <link rel="stylesheet" href="{% static 'css/style1.css' %}">
     <link rel="stylesheet" href="{% static 'css/login.css' %}">
     <link rel="stylesheet" href="{% static 'css/URegister.css' %}">
@@ -93,10 +93,10 @@
     
         {% if user.is_authenticated %}
         <li style="margin-right: 20px;">hai {{user.first_name}}</li>
-        <li><a href="/logout" class="btn btn-primary navbar-btn1"><i class="fa fa-sign-out"></i> Log Out </a></li>
+        <li><a href="accounts/logout" class="btn btn-primary navbar-btn1"><i class="fa fa-sign-out"></i> Log Out </a></li>
         {% else %}
-        <li><a href="/Register" class="btn btn-primary navbar-btn1"><i class="fas fa-user-plus"></i> Sign up </a></li>
-        <li><a href="/login" class="btn btn-primary navbar-btn1"><i class="fa fa-sign-in"></i> Sign in </a></li>
+        <li><a href="http://127.0.0.1:8000/accounts/register" class="btn btn-primary navbar-btn1"><i class="fas fa-user-plus"></i> Sign up </a></li>
+        <li><a href="http://127.0.0.1:8000/accounts/login" class="btn btn-primary navbar-btn1"><i class="fa fa-sign-in"></i> Sign in </a></li>
         {% endif %}
       </ul>
       </div>

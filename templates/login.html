@@ -12,7 +12,7 @@
     <div class="row">
         <div class="col-md-6 login-form-1">
             <h3>Login </h3>
-            <form action="{% url 'login' %}" method="POST">
+            <form action="login" method="POST">
                 {% csrf_token %}
                 <div class="form-group">
                     <input type="email" name="email" class="form-control" placeholder="Your Email "  required="" />
@@ -24,7 +24,7 @@
                     <input type="submit" class="btnSubmit" value="Login" />
                 </div>
 				<div class="form-group">
-						Don't have an account? <a href="/Register" class="ml-2">Sign Up</a>
+						Don't have an account? <a href="http://127.0.0.1:8000/accounts/register" class="ml-2">Sign Up</a>
 					</div>
             </form>
             <div>
