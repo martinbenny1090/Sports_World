@@ -19,7 +19,7 @@ class Item(models.Model):
     label = models.CharField(choices=LABEL_CHOICES, max_length=1, default="")
     category = models.CharField(max_length=50, default="")
     slug = models.SlugField()
-    description = models.TextField()
+    description = models.TextField(default="")
     
 
     def __str__(self):
@@ -38,6 +38,8 @@ class Item(models.Model):
 
 
 class OrderItem(models.Model):
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, blank=True, null=True)
+    ordered = models.BooleanField(default=False)
     item = models.ForeignKey(Item, on_delete=models.CASCADE)
     quantity = models.IntegerField(default=1)
 
@@ -51,7 +53,7 @@ class Order(models.Model):
     ordered_date = models.DateTimeField()
     ordered = models.BooleanField(default=False)
 
-    def __str__(self):
-        return self.username
+    # def __str__(self):
+    #     return self.user
 
 
