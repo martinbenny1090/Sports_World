@@ -42,12 +42,12 @@ def register(request):
         if User.objects.filter(username=email).exists():
             # print('user taken')
             messages.info(request,'E-mail Id already using')
-            return redirect('/register')
+            return redirect('register')
 
         else:    
             user = User.objects.create_user(username=email, password=password1, email=email,first_name=name)
             user.save();
-            print('user crested')
+            print('user created')
             return redirect('login')
 
     else:

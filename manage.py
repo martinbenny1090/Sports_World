@@ -5,7 +5,7 @@ import sys
 
 
 def main():
-    os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'sports_world.settings')
+    os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'Sports_World.settings')
     try:
         from django.core.management import execute_from_command_line
     except ImportError as exc:
