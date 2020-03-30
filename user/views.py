@@ -42,7 +42,7 @@ def add_to_cart(request, slug):
         order.items.add(order_item)
         messages.info(request, "This item was added to cart")
         return redirect("user:product", slug=slug)
-
+    return redirect("user:product", slug=slug)
 
 def remove_from_cart(request, slug):
     item = get_object_or_404(Item, slug=slug)
