@@ -56,26 +56,35 @@
         background-color: #ddd;
         color: black;
       }
-      /*----new tem ------*/
-      @media (max-width: 740px) {
+      .fas {
+        padding-right: 3px;
+        padding-left: 3px;
+      }
+      .badge, .badge-danger{
+        color: #fff!important;
+      }
+      .z-depth-1 {
+        box-shadow: 0 2px 5px 0 rgba(0,0,0,.16),0 2px 10px 0 rgba(0,0,0,.12)!important;
+      }
+      .red {
+        background-color: #f44336!important;
+      }
+      .mr-1, .mx-1 {
+        margin-right: .25rem!important;
+      }
+      .badge {
+        display: inline-block;
+        padding: .25em .4em;
+        font-size: 75%;
+        font-weight: 700;
+        line-height: 1;
+        text-align: center;
+        white-space: nowrap;
+        vertical-align: baseline;
+        border-radius: .25rem;
+        transition: color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+      }
 
-        html,
-        body,
-        header,
-        .carousel {
-          height: 100vh;
-        }
-      }
-  
-      @media (min-width: 800px) and (max-width: 850px) {
-  
-        html,
-        body,
-        header,
-        .carousel {
-          height: 100vh;
-        }
-      }
     </style>
     {% endblock %}
   </head>
@@ -93,7 +102,9 @@
     
         {% if user.is_authenticated %}
         <li style="margin-right: 20px;">hai {{user.first_name}}</li>
-        <li><a href="accounts/logout" class="btn btn-primary navbar-btn1"><i class="fa fa-sign-out"></i> Log Out </a></li>
+        <li><a href="" class="btn btn-primary navbar-btn1"><span class="badge red z-depth-1 mr-1"> 2 </span>
+          <i class="fas fa-shopping-cart"></i> cart </a></li>
+        <li><a href="http://127.0.0.1:8000/accounts/logout" class="btn btn-primary navbar-btn1"><i class="fa fa-sign-out"></i> Log Out </a></li>
         {% else %}
         <li><a href="http://127.0.0.1:8000/accounts/register" class="btn btn-primary navbar-btn1"><i class="fas fa-user-plus"></i> Sign up </a></li>
         <li><a href="http://127.0.0.1:8000/accounts/login" class="btn btn-primary navbar-btn1"><i class="fa fa-sign-in"></i> Sign in </a></li>
