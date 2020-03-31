@@ -20,7 +20,7 @@
                 <tbody>
                     {% for order_item in object.items.all %}
                 <tr>
-                    <th scope="row">1</th>
+                    <th scope="row">{{ forloop.counter }}</th>
                     <td>{{ order_item.item.title }}</td>
                     <td>{{ order_item.item.price }}</td>
                     <td>{{ order_item.quantity }}</td>
