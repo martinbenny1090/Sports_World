@@ -6,6 +6,9 @@ from django.views.generic import ListView, DetailView
 from .models import Item, OrderItem, Order
 from django.utils import timezone
 
+def checkout(request):
+    return render(request, 'checkout.html')
+
 class HomeView(ListView):
     model = Item
     paginate_by = 8
