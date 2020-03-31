@@ -1,6 +1,7 @@
 input[type=text] {
+    width: 100%;
     border: none;
-    
+    border-bottom: 1px solid #C0C0C0; 
   }
 h2{
     font-size: large;
@@ -90,4 +91,4 @@ body{
     background-color: #4285f4!important;
     color: #fff;
 }
-.md-form {}
+
