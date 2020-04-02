@@ -28,6 +28,7 @@ DEBUG = True
 ALLOWED_HOSTS = []
 
 
+
 # Application definition
 
 INSTALLED_APPS = [
@@ -127,3 +128,12 @@ STATICFILES_DIRS =[
     os.path.join(BASE_DIR, 'static')
 ]
 STATIC_ROOT = os.path.join(BASE_DIR, 'assets')
+
+#media file 
+MEDIA_URL ='/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
+# SECRET_KEY = config('SECRET_KEY') stripe.api_key = 'sk_test_4eC39HqLyjWDarjtT1zdp7dc'
+# STRIPE_SECRET_KEY = ('sk_test_4eC39HqLyjWDarjtT1zdp7dc')
+STRIPE_PUBLIC_KEY = ''
+STRIPE_SECRET_KEY = 'sk_test_4eC39HqLyjWDarjtT1zdp7dc'
