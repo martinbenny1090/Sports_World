@@ -3,7 +3,7 @@ from django.contrib import messages
 from django.contrib.auth.models import User, auth
 # Create own import.
 from django.views.generic import ListView, DetailView, View
-from .models import Item, OrderItem, Order
+from .models import Item, OrderItem, Order, Contact
 from django.utils import timezone
 from django.http import HttpResponse
 from django.core.exceptions import ObjectDoesNotExist
@@ -125,3 +125,15 @@ def remove_single_item_from_cart(request, slug):
     else:
         messages.info(request, "you do not have an active order")
         return redirect("user:product", slug=slug)
+
+
+def contact(request):
+    if request.method=="POST":
+        name = request.POST.get('name', '')
+        email = request.POST.get('email', '')
+        phone = request.POST.get('phone', '')
+        desc = request.POST.get('desc', '')
+        print(name, email, phone, desc)
+        contact = Contact(name=name, email=email, phone=phone, desc=desc)
+        contact.save()
+    return render(request, 'contact.html')
