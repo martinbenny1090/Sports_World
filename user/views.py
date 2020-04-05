@@ -12,7 +12,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.conf import settings
 
 import stripe
-stripe.api_key = settings.STRIPE_SECRET_KEY
+stripe.api_key = 'sk_test_S3eXvxJrVCROKaPdNikrD15300UsFQvwPS'
 
 class paymentView(View):
     def get(self, *args, **kwargs):
@@ -26,12 +26,26 @@ class paymentView(View):
     def post(self, *args, **kwargs):
         order = Order.objects.get(user=self.request.user, ordered=False)
         token = self.request.POST.get('stripeToken')
+        print(token)
         amount = int(order.get_total() * 100)
         try:
+            customer = stripe.Customer.create(
+                name='namu',
+                email='manu@gmail.com',
+                description='3 sharts',
+                source=token,
+                
+            )
+            
+            print("hai")
             charge = stripe.Charge.create(
-                        amount=amount,  # cents
-                        currency="usd",
-                        source=token
+                customer=customer,
+                amount=amount,  # cents
+                currency="usd",
+                
+                description='3 sharts',
+                
+                
             )
              
             # create the payment
