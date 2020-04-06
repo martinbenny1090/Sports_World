@@ -14,6 +14,10 @@ from django.conf import settings
 import stripe
 stripe.api_key = 'sk_test_S3eXvxJrVCROKaPdNikrD15300UsFQvwPS'
 
+class PaypalView(View):
+    def get(self, *args, **kwargs):
+        return render(self.request, 'paypal.html')
+
 class paymentView(View):
     def get(self, *args, **kwargs):
         #order
@@ -37,20 +41,20 @@ class paymentView(View):
                 
             )
             
-            print("hai")
-            charge = stripe.Charge.create(
-                customer=customer,
-                amount=amount,  # cents
-                currency="usd",
+            # print("hai")
+            # charge = stripe.Charge.create(
+            #     customer=customer,
+            #     amount=amount,  # cents
+            #     currency="usd",
                 
-                description='3 sharts',
+            #     description='3 sharts',
                 
                 
-            )
+            # )
              
             # create the payment
             payment = Payment()
-            payment.stripe_charge_id = charge['id']
+            payment.stripe_charge_id = token
             payment.user = self.request.user
             payment.amount = order.get_total()
             payment.save()
@@ -140,8 +144,7 @@ class CheckoutView(View):
                 if payment_option == 'S':
                     return redirect('user:payment', payment_option='stripe')
                 elif payment_option == 'P':
-
-                    return redirect('user:payment', payment_option='paypal')
+                    return redirect('user:paypal', payment_option='paypal')
                 else:
                     messages.warning(self.request, "Invalid payment option selected")
                     return redirect('user:checkout')
