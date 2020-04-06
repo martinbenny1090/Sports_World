@@ -134,7 +134,9 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'assets')
 MEDIA_URL ='/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
-# SECRET_KEY = config('SECRET_KEY') stripe.api_key = 'sk_test_4eC39HqLyjWDarjtT1zdp7dc'
-# STRIPE_SECRET_KEY = ('sk_test_4eC39HqLyjWDarjtT1zdp7dc')
+
+# STRIPE_SECRET_KEY
 STRIPE_PUBLISHABLE_KEY = 'pk_test_BBzmyfWXzwDEPwBu6ArAFyVU00laBqS5B9'
 STRIPE_SECRET_KEY = 'sk_test_S3eXvxJrVCROKaPdNikrD15300UsFQvwPS'
+
+

@@ -14,11 +14,11 @@ from django.conf import settings
 import stripe
 stripe.api_key = 'sk_test_S3eXvxJrVCROKaPdNikrD15300UsFQvwPS'
 
-class PaypalView(View):
+class PaypalView(View):#paypal page
     def get(self, *args, **kwargs):
         return render(self.request, 'paypal.html')
 
-class paymentView(View):
+class paymentView(View):#stripe  page
     def get(self, *args, **kwargs):
         #order
         order = Order.objects.get(user=self.request.user, ordered=False)
@@ -33,13 +33,13 @@ class paymentView(View):
         print(token)
         amount = int(order.get_total() * 100)
         try:
-            customer = stripe.Customer.create(
-                name='namu',
-                email='manu@gmail.com',
-                description='3 sharts',
-                source=token,
+            # customer = stripe.Customer.create(
+            #     name='namu',
+            #     email='manu@gmail.com',
+            #     description='3 sharts',
+            #     source=token,
                 
-            )
+            # )
             
             # print("hai")
             # charge = stripe.Charge.create(
@@ -60,6 +60,12 @@ class paymentView(View):
             payment.save()
 
             #assign the payment to the order
+
+            order_items = order.items.all()
+            order_items.update(ordered=True)
+            for item in order_items:
+                item.save()
+
             order.ordered = True
             order.payment = payment
             order.save()
@@ -106,12 +112,7 @@ class paymentView(View):
             messages.warning(self.request, "A serious error occurred. We have been notifed.")
             return redirect("/")        
                 
-
-        
-       
-        
-
-
+                
 class CheckoutView(View):
     def get(self, *args, **kwargs):
         return render(self.request, 'checkout.html')
@@ -160,6 +161,7 @@ class CheckoutView(View):
 
 
 class OrderSummaryView(LoginRequiredMixin, View):
+
     def get(self,  *args, **kwargs):
         try:
             order = Order.objects.get(user=self.request.user, ordered=False)
@@ -180,7 +182,7 @@ class ItemDetailView(DetailView):
     model = Item
     template_name = "product.html"
 
-@login_required
+@login_required(login_url='/accounts/login')
 def add_to_cart(request, slug):
     item = get_object_or_404(Item, slug=slug)
     order_item, created = OrderItem.objects.get_or_create(
@@ -211,7 +213,7 @@ def add_to_cart(request, slug):
         return redirect("user:order-summary")
     return redirect("user:product")
 
-@login_required
+@login_required(login_url='/accounts/login')
 def remove_from_cart(request, slug):
     item = get_object_or_404(Item, slug=slug)
     order_qs = Order.objects.filter(
@@ -239,7 +241,7 @@ def remove_from_cart(request, slug):
         return redirect("user:product", slug=slug)
 
    
-@login_required
+@login_required(login_url='/accounts/login')
 def remove_single_item_from_cart(request, slug):
     item = get_object_or_404(Item, slug=slug)
     order_qs = Order.objects.filter(
