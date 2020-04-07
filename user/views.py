@@ -3,7 +3,7 @@ from django.contrib import messages
 from django.contrib.auth.models import User, auth
 # Create own import.
 from django.views.generic import ListView, DetailView, View
-from .models import Item, OrderItem, Order, Contact, BillingAddress, Payment
+from .models import Item, OrderItem, Order, Contact, BillingAddress, Payment, Coupon
 from django.utils import timezone
 from django.http import HttpResponse
 from django.core.exceptions import ObjectDoesNotExist
@@ -22,10 +22,16 @@ class paymentView(View):#stripe  page
     def get(self, *args, **kwargs):
         #order
         order = Order.objects.get(user=self.request.user, ordered=False)
-        context = {
-            'order': order
-        }
-        return render(self.request, "payment.html", context)
+        if order.billing_address:
+            context = {
+                'order': order,
+                'DISPLAY_COUPON_FORM': False
+            }
+            return render(self.request, "payment.html", context)
+        else:
+            messages.warning(self.request, "You have not added a billing address ")    
+            return redirect("user:checkout")
+
 
     def post(self, *args, **kwargs):
         order = Order.objects.get(user=self.request.user, ordered=False)
@@ -40,8 +46,6 @@ class paymentView(View):#stripe  page
             #     source=token,
                 
             # )
-            
-            # print("hai")
             # charge = stripe.Charge.create(
             #     customer=customer,
             #     amount=amount,  # cents
@@ -115,6 +119,16 @@ class paymentView(View):#stripe  page
                 
 class CheckoutView(View):
     def get(self, *args, **kwargs):
+        try:
+            order = Order.objects.get(user=self.request.user, ordered=False)
+            context = {
+                'order': order,
+                'DISPLAY_COUPON_FORM': True  
+            }
+            return render(self.request, "checkout.html", context)
+        except ObjectDoesNotExist:
+            messages.info(self.request, "You do not have an active order")
+            return redirect("user:checkout")
         return render(self.request, 'checkout.html')
 
     def post(self, request):
@@ -283,3 +297,27 @@ def contact(request):
         contact = Contact(name=name, email=email, phone=phone, desc=desc)
         contact.save()
     return render(request, 'contact.html')
+
+def get_coupon(request, code):
+    try:
+        coupon = Coupon.objects.get(code=code)
+        return coupon 
+    except ObjectDoesNotExist:
+        messages.info(request, "this coupon does not exist")
+        return redirect('user:checkout')
+
+class AddCouponView(View):
+    def post(self, *args, **kwargs):
+        code = request.POST.get('code','')
+        try:
+            code=code
+            print(code)
+            order = Order.objects.get(user=self.request.user, ordered=False)
+            order.coupon = get_coupon(self.request, code)
+            order.save()
+            messages.success(self.request, "Successfully coupon added")
+            return redirect('user:checkout')
+        except ObjectDoesNotExist:
+            messages.info(self.request, "you do not have an active order")
+            return redirect('user:checkout')
+    

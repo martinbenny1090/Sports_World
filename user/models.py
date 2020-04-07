@@ -75,6 +75,7 @@ class Order(models.Model):
     ordered = models.BooleanField(default=False)
     billing_address = models.ForeignKey('BillingAddress', on_delete=models.SET_NULL, blank=True, null=True)
     payment = models.ForeignKey('Payment', on_delete=models.SET_NULL, blank=True, null=True)
+    coupon = models.ForeignKey('Coupon', on_delete=models.SET_NULL, blank=True, null=True)
 
     def __str__(self):
         return self.user.username
@@ -83,6 +84,7 @@ class Order(models.Model):
         total = 0
         for order_item in self.items.all():
             total += order_item.get_final_prise()
+        total -= self.coupon.amount    
         return total 
        
 
@@ -119,6 +121,7 @@ class Payment(models.Model):
  
 class Coupon(models.Model):
     code = models.CharField(max_length=15)
+    amount = models.FloatField()
 
     def __str__(self):
         return self.code 

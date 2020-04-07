@@ -8,37 +8,34 @@
     <li class="list-group-item d-flex justify-content-between lh-condensed">
         <div>
         <h6 class="my-0">{{ order_item.quantity }} x {{ order_item.item.title}}</h6>
-        <small class="text-muted">{{ order_item.item.description}}</small>
+        <small class="text-muted">{{ order_item.item.category}}</small>
         </div>
-        <span class="text-muted">${{ order_item.get_final_price }}</span>
+        <span class="text-muted">${{ order_item.get_final_prise }}</span>
     </li>
     {% endfor %}
-    {% if order.coupon %}
     <li class="list-group-item d-flex justify-content-between bg-light">
-        <div class="text-success">
-        <h6 class="my-0">Promo code</h6>
-        <small>{{ order.coupon.code }}</small>
-        </div>
-        <span class="text-success">-${{ order.coupon.amount }}</span>
-    </li>
-    {% endif %}
+            <div class="text-success">
+              <h6 class="my-0">Promo code</h6>
+              <small>{{ order.coupon.code }}</small>
+            </div>
+            <span class="text-success">-${{ order.coupon.amount }}</span>
+        </li>
     <li class="list-group-item d-flex justify-content-between">
         <span>Total (USD)</span>
         <strong>${{ order.get_total }}</strong>
     </li>
     </ul>
-
     {% if DISPLAY_COUPON_FORM %}
-    <form class="card p-2" action="{% url 'core:add-coupon' %}" method="POST">
-        {% csrf_token %}
-        <div class="input-group">
-            {{ couponform.code }}
-            <div class="input-group-append">
-            <button class="btn btn-secondary btn-md waves-effect m-0" type="submit">Redeem</button>
+        <form class="card p-2"action="{% url 'user:add-coupon' %}" method="POST">
+                {% csrf_token %}
+            <div class="input-group">
+                <input type="text" class="form-control"  name="code" placeholder="Promo code" aria-label="Recipient's username" aria-describedby="basic-addon2">
+                <div class="input-group-append">
+                    <button type="submit" class="btn btn-success">Redeem</button>
+                </div>
             </div>
-        </div>
-    </form>
+        </form>
     {% endif %}
-
+  
 </div>
 
