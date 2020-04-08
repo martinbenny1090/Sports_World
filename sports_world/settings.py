@@ -40,7 +40,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'accounts',
     'user',
-    'owner',
+    'stripe',
 ]
 
 MIDDLEWARE = [
@@ -134,9 +134,6 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'assets')
 MEDIA_URL ='/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
-
 # STRIPE_SECRET_KEY
 STRIPE_PUBLISHABLE_KEY = 'pk_test_BBzmyfWXzwDEPwBu6ArAFyVU00laBqS5B9'
 STRIPE_SECRET_KEY = 'sk_test_S3eXvxJrVCROKaPdNikrD15300UsFQvwPS'
-
-

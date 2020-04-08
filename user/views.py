@@ -1,9 +1,10 @@
+import stripe
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib import messages
 from django.contrib.auth.models import User, auth
 # Create own import.
 from django.views.generic import ListView, DetailView, View
-from .models import Item, OrderItem, Order, Contact, BillingAddress, Payment, Coupon
+from .models import Item, OrderItem, Order, Contact, BillingAddress, Payment
 from django.utils import timezone
 from django.http import HttpResponse
 from django.core.exceptions import ObjectDoesNotExist
@@ -11,33 +12,32 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.conf import settings
 
-import stripe
+
 stripe.api_key = 'sk_test_S3eXvxJrVCROKaPdNikrD15300UsFQvwPS'
 
-class PaypalView(View):#paypal page
-    def get(self, *args, **kwargs):
-        return render(self.request, 'paypal.html')
-
-class paymentView(View):#stripe  page
+class paymentView(View):
     def get(self, *args, **kwargs):
         #order
         order = Order.objects.get(user=self.request.user, ordered=False)
-        if order.billing_address:
-            context = {
-                'order': order,
-                'DISPLAY_COUPON_FORM': False
-            }
-            return render(self.request, "payment.html", context)
+        if order is not None:  
+            if order.billing_address:
+                context = {
+                    'order': order
+                }
+                return render(self.request, "payment.html", context)
+            else:
+                messages.warning(self.request, "You do not have a billing address")    
+                return redirect("user:checkout")
         else:
-            messages.warning(self.request, "You have not added a billing address ")    
-            return redirect("user:checkout")
+            messages.warning(self.request, "You do not have a active order")    
+            return redirect("/")
 
 
     def post(self, *args, **kwargs):
         order = Order.objects.get(user=self.request.user, ordered=False)
+        publishKey = settings.STRIPE_PUBLISHABLE_KEY #new
         token = self.request.POST.get('stripeToken')
-        print(token)
-        amount = int(order.get_total() * 100)
+        amount = int(order.get_total())
         try:
             # customer = stripe.Customer.create(
             #     name='namu',
@@ -59,12 +59,12 @@ class paymentView(View):#stripe  page
             # create the payment
             payment = Payment()
             payment.stripe_charge_id = token
+            print(token)
             payment.user = self.request.user
             payment.amount = order.get_total()
             payment.save()
 
             #assign the payment to the order
-
             order_items = order.items.all()
             order_items.update(ordered=True)
             for item in order_items:
@@ -116,21 +116,26 @@ class paymentView(View):#stripe  page
             messages.warning(self.request, "A serious error occurred. We have been notifed.")
             return redirect("/")        
                 
-                
+
+        
+       
+        
+
+
+
 class CheckoutView(View):
     def get(self, *args, **kwargs):
         try:
             order = Order.objects.get(user=self.request.user, ordered=False)
             context = {
                 'order': order,
-                'DISPLAY_COUPON_FORM': True  
+                  
             }
             return render(self.request, "checkout.html", context)
         except ObjectDoesNotExist:
             messages.info(self.request, "You do not have an active order")
             return redirect("user:checkout")
         return render(self.request, 'checkout.html')
-
     def post(self, request):
         try:
             order = Order.objects.get(user=self.request.user, ordered=False)
@@ -159,7 +164,8 @@ class CheckoutView(View):
                 if payment_option == 'S':
                     return redirect('user:payment', payment_option='stripe')
                 elif payment_option == 'P':
-                    return redirect('user:paypal', payment_option='paypal')
+
+                    return redirect('user:payment', payment_option='paypal')
                 else:
                     messages.warning(self.request, "Invalid payment option selected")
                     return redirect('user:checkout')
@@ -175,7 +181,6 @@ class CheckoutView(View):
 
 
 class OrderSummaryView(LoginRequiredMixin, View):
-
     def get(self,  *args, **kwargs):
         try:
             order = Order.objects.get(user=self.request.user, ordered=False)
@@ -298,26 +303,6 @@ def contact(request):
         contact.save()
     return render(request, 'contact.html')
 
-def get_coupon(request, code):
-    try:
-        coupon = Coupon.objects.get(code=code)
-        return coupon 
-    except ObjectDoesNotExist:
-        messages.info(request, "this coupon does not exist")
-        return redirect('user:checkout')
-
-class AddCouponView(View):
-    def post(self, *args, **kwargs):
-        code = request.POST.get('code','')
-        try:
-            code=code
-            print(code)
-            order = Order.objects.get(user=self.request.user, ordered=False)
-            order.coupon = get_coupon(self.request, code)
-            order.save()
-            messages.success(self.request, "Successfully coupon added")
-            return redirect('user:checkout')
-        except ObjectDoesNotExist:
-            messages.info(self.request, "you do not have an active order")
-            return redirect('user:checkout')
-    
+class RequestRefundView(View):
+    def get(self, *args, **kwargs):
+        return render(self.request, "request_refund.html")

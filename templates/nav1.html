@@ -3,7 +3,6 @@
 <!doctype html>
 <html lang="en">
   
-  
   <head>
     <!-- Required meta tags -->
     <meta charset="utf-8">
@@ -102,7 +101,6 @@
       <ul class="navbar-nav ml-auto">
     
         {% if user.is_authenticated %}
-
         <li style="margin-right: 20px;">hai {{user.first_name}}</li>
 
         <li><a href="{% url 'user:order-summary' %}" class="btn btn-primary navbar-btn1">
@@ -112,13 +110,9 @@
         <li><a href="http://127.0.0.1:8000/accounts/logout" class="btn btn-primary navbar-btn1"><i class="fa fa-sign-out"></i> Log Out </a></li>
         {% else %}
         <li><a href="http://127.0.0.1:8000/accounts/register" class="btn btn-primary navbar-btn1"><i class="fas fa-user-plus"></i> Sign up </a></li>
-        <li><a href="http://127.0.0.1:8000/accounts/login" class="btn btn-primary navbar-btn1"><i class="fa fa-sign-in"></i> Sign in </a></li>    
+        <li><a href="http://127.0.0.1:8000/accounts/login" class="btn btn-primary navbar-btn1"><i class="fa fa-sign-in"></i> Sign in </a></li>
         {% endif %}
-        {% if User.is_superuser %}
-        <li style="margin-right: 20px;">hai amin working <li>
-          {% endif %}
       </ul>
-      
       </div>
     </nav>
     {% block body %}

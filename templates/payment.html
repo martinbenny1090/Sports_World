@@ -2,6 +2,12 @@
 
 {% block title %} Payment {% endblock %}
 
+{% block extra_head %}
+
+<link rel="stylesheet" href="/static/css/checkout.css">
+
+ {% endblock %}
+
 {% block css %}
 <style>
 
@@ -161,7 +167,7 @@
           </div>
         </div>
 
-          {% include "order_snippet.html" %}  
+         {% include "order_snippet.html" %} 
 
       </div>
 
