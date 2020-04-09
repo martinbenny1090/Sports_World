@@ -4,7 +4,7 @@ from django.contrib import messages
 from django.contrib.auth.models import User, auth
 # Create own import.
 from django.views.generic import ListView, DetailView, View
-from .models import Item, OrderItem, Order, Contact, BillingAddress, Payment
+from .models import Item, OrderItem, Order, Contact, BillingAddress, Payment, Refund
 from django.utils import timezone
 from django.http import HttpResponse
 from django.core.exceptions import ObjectDoesNotExist
@@ -312,3 +312,29 @@ def contact(request):
 class RequestRefundView(View):
     def get(self, *args, **kwargs):
         return render(self.request, "request_refund.html")
+
+    def post(self, request):
+        ref_code = request.POST.get('ref_code')
+        message = request.POST.get('email')
+        email = request.POST.get('message')
+        print (ref_code)
+        print (message)
+        print (email)
+        try:
+            order = Order.objects.get(ref_code=ref_code)
+            order.refund_requested = True
+            order.save()
+
+            # store the refund
+            refund = Refund()
+            refund.order = order
+            refund.reason = message
+            refund.email = email
+            refund.save()
+
+            messages.info(self.request, "Your request was received.")
+            return redirect("user:request-refund")
+
+        except ObjectDoesNotExist:
+                messages.info(self.request, "This order does not exist.")
+                return redirect("user:request-refund")

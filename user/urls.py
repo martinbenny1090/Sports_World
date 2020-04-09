@@ -13,7 +13,7 @@ urlpatterns = [
     path('remove-item-from-cart/<slug>', views.remove_single_item_from_cart, name="remove-single-item-from-cart"),
     path('contact', views.contact, name="contact"),
     path('payment/<payment_option>/', paymentView.as_view(), name="payment"),
-    path('request-refund/', RequestRefundView.as_view(), name='request_refund')
+    path('request-refund/', RequestRefundView.as_view(), name='request-refund')
     
    
 ]
