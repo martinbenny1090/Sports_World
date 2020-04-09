@@ -12,8 +12,13 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.conf import settings
 
-
+import random
+import string
 stripe.api_key = 'sk_test_S3eXvxJrVCROKaPdNikrD15300UsFQvwPS'
+
+def create_ref_code():
+    return ''.join(random.choices(string.ascii_lowercase + string.digits, k=20))
+
 
 class paymentView(View):
     def get(self, *args, **kwargs):
@@ -72,6 +77,7 @@ class paymentView(View):
 
             order.ordered = True
             order.payment = payment
+            order.ref_code = create_ref_code()#order reference
             order.save()
             messages.success(self.request, "Your order was sucessfull")    
             return redirect("/")
