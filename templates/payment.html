@@ -120,16 +120,7 @@
           <div class="card">
 
             <script src="https://js.stripe.com/v3/"></script>
-            {% if card %}
-              <div style="padding: 5px 30px;">
-                <div class="custom-control custom-checkbox">
-                  <input type="checkbox" class="custom-control-input" name="use_default_card" id="use_default_card">
-                  <label class="custom-control-label" for="use_default_card">Use default card:
-                    **** **** **** {{ card.last4 }} 
-                  <span>Exp: {{ card.exp_month }}/{{ card.exp_year }}</span></label>
-                </div>
-              </div>
-            {% endif %}
+
 
             <div class="current-card-form">
               <form action="." method="post" class="stripe-form">
@@ -155,10 +146,10 @@
                     <button id="stripeBtn">Submit Payment</button>
                   </div>
                   <div class="stripe-form-row">
-                    <div class="custom-control custom-checkbox">
+                    <!-- <div class="custom-control custom-checkbox">
                       <input type="checkbox" class="custom-control-input" name="save" id="save_card_info">
                       <label class="custom-control-label" for="save_card_info">Save for future purchases</label>
-                    </div>
+                    </div> -->
                   </div>
                   <div id="card-errors" role="alert"></div>
               </form>
