@@ -42,10 +42,24 @@ class OrderAdmin(admin.ModelAdmin):
     ]
     actions = [make_refund_accepted, remove_refund_accepted]
 
+
+class BillingAddressAdmin(admin.ModelAdmin):
+    list_display = [
+        'user',
+        'street_address',
+        'apartment_address',
+        'country',
+        'zip',
+        'address_type',
+        'default'
+    ]
+    list_filter = ['default', 'address_type', 'country']
+    search_fields = ['user', 'street_address', 'apartment_address', 'zip']
+
 admin.site.register(Item)
 admin.site.register(OrderItem)
 admin.site.register(Order, OrderAdmin)
 admin.site.register(Contact)
-admin.site.register(BillingAddress)
+admin.site.register(BillingAddress, BillingAddressAdmin)
 admin.site.register(Payment)
 admin.site.register(Refund)

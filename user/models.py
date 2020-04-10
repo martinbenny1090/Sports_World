@@ -9,6 +9,10 @@ LABEL_CHOICES = (
     ('D', 'danger'),
     ('N', 'null')
 )
+ADDRESS_CHOICES = (
+    ('B', 'Billing'),
+    ('S', 'Shipping'),
+)
 
 class Item(models.Model):
     title = models.CharField(max_length=100)
@@ -109,9 +113,14 @@ class BillingAddress(models.Model):
     apartment_address = models.CharField(max_length=100)
     country = models.CharField(max_length=100)
     zip = models.CharField(max_length=100)
+    address_type = models.CharField(max_length=1, choices=ADDRESS_CHOICES)
+    default = models.BooleanField(default=False)
 
     def __str__(self):
         return self.user.username 
+
+    # class Meta:
+    #     verbose_name_plural = 'Addresses'
 
 class Payment(models.Model):
     stripe_charge_id = models.CharField(max_length=50)

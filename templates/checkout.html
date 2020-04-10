@@ -32,84 +32,83 @@
               <form method="POST" class="card-body">
                   {% csrf_token %}
                 <!--Grid row-->
-              
+              <h3>Billing Address </h3>
   
-                
-                <!--address-->
-                <div class="md-form mb-5">
-                    <label for="address" class="">Address</label>
-                  <input type="text" id="address1" name="address1" class="form-control" placeholder="1234 Main St">
-                  
-                </div>
-  
-                <!--address-2-->
-                <div class="md-form mb-5">
-                    <label for="address-2" class="">Address 2 (optional)</label>
-                  <input type="text" id="address2" name="address2" class="form-control" placeholder="Apartment or suite">
-                  
-                </div>
-  
-                <!--Grid row-->
-                <div class="row">
-  
-                  <!--Grid column-->
-                  <div class="col-lg-4 col-md-12 mb-4">
-  
-                    <label for="country">Country</label>
-                    <select class="custom-select d-block w-100" id="country" name="counrty" >
-                      <option value="">Choose...</option>
-                      <option>United States</option>
-                    </select>
-                    <div class="invalid-feedback">
-                      Please select a valid country.
+              <div class='hideable_billing_form'>
+                    <!--address-->
+                    <div class="md-form mb-5">
+                        <label for="address" class="">Address</label>
+                      <input type="text" id="address1" name="address1" class="form-control" placeholder="1234 Main St">
+                      
                     </div>
-  
-                  </div>
-                  <!--Grid column-->
-  
-                  <!--Grid column-->
-                  <div class="col-lg-4 col-md-6 mb-4">
-  
-                    <label for="state">State</label>
-                    <select class="custom-select d-block w-100" id="state" name="state">
-                      <option value="">Choose...</option>
-                      <option>California</option>
-                    </select>
-                    <div class="invalid-feedback">
-                      Please provide a valid state.
+      
+                    <!--address-2-->
+                    <div class="md-form mb-5">
+                        <label for="address-2" class="">Address 2 (optional)</label>
+                      <input type="text" id="address2" name="address2" class="form-control" placeholder="Apartment or suite">
+                      
                     </div>
-  
-                  </div>
-                  <!--Grid column-->
-  
-                  <!--Grid column-->
-                  <div class="col-lg-4 col-md-6 mb-4">
-  
-                    <label for="zip">Zip</label>
-                    <input type="text" class="form-control" id="zip" name="zip" placeholder="">
-                    <div class="invalid-feedback">
-                      Zip code required.
+      
+                    <!--Grid row-->
+                    <div class="row">
+      
+                      <!--Grid column-->
+                      <div class="col-lg-4 col-md-12 mb-4">
+      
+                        <label for="country">Country</label>
+                        <select class="custom-select d-block w-100" id="country" name="counrty" >
+                          <option value="">Choose...</option>
+                          <option>United States</option>
+                        </select>
+                        <div class="invalid-feedback">
+                          Please select a valid country.
+                        </div>
+      
+                      </div>
+                      <!--Grid column-->
+      
+                      <!--Grid column-->
+                      <div class="col-lg-4 col-md-6 mb-4">
+      
+                        <label for="state">State</label>
+                        <select class="custom-select d-block w-100" id="state" name="state">
+                          <option value="">Choose...</option>
+                          <option>California</option>
+                        </select>
+                        <div class="invalid-feedback">
+                          Please provide a valid state.
+                        </div>
+      
+                      </div>
+                      <!--Grid column-->
+      
+                      <!--Grid column-->
+                      <div class="col-lg-4 col-md-6 mb-4">
+      
+                        <label for="zip">Zip</label>
+                        <input type="text" class="form-control" id="zip" name="zip" placeholder="">
+                        <div class="invalid-feedback">
+                          Zip code required.
+                        </div>
+      
+                      </div>
+                      <!--Grid column-->
+      
                     </div>
-  
+                    <!--Grid row-->
+                    <div class="custom-control custom-checkbox">
+                      <input type="checkbox" class="custom-control-input" name="set_default_billing" id="set_default_billing">
+                      <label class="custom-control-label" for="set_default_billing">Save as default billing address</label>
+                    </div>
                   </div>
-                  <!--Grid column-->
-  
-                </div>
-                <!--Grid row-->
-  
+                  {% if default_billing_address %}
+                  <div class="custom-control custom-checkbox">
+                    <input type="checkbox" class="custom-control-input" name="use_default_billing" id="use_default_billing">
+                    <label class="custom-control-label" for="use_default_billing">Use default billing address: {{ default_billing_address.street_address|truncatechars:20 }}</label>
+                  </div>
+                 {% endif %}
                 <hr>
-  
-                <div class="custom-control custom-checkbox">
-                  <input type="checkbox" class="custom-control-input" id="same-address" name="same_billing_address">
-                  <label class="custom-control-label" for="same-address">Shipping address is the same as my billing address</label>
-                </div>
-                <div class="custom-control custom-checkbox">
-                  <input type="checkbox" class="custom-control-input" id="save-info" name="save_info">
-                  <label class="custom-control-label" for="save-info">Save this information for next time</label>
-                </div>
-  
-                <hr>
-  
+                <h3>Payment Options </h3>
                 <div class="d-block my-3">
                   
                   <div class="custom-control custom-radio">
@@ -147,3 +146,21 @@
     <!--Main layout-->
   
     {% endblock %}
+
+    {% block js %} 
+      <script>
+      
+        var hideable_billing_form = $('.hideable_billing_form');
+
+      
+        var use_default_billing = document.querySelector("input[name=use_default_billing]");
+
+        use_default_billing.addEventListener('change', function() {
+          if (this.checked) {
+            hideable_billing_form.hide();
+          } else {
+            hideable_billing_form.show();
+          }
+        })
+              </script>
+{% endblock %}

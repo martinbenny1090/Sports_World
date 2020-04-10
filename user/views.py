@@ -137,35 +137,75 @@ class CheckoutView(View):
                 'order': order,
                   
             }
+            billing_address_qs = BillingAddress.objects.filter(
+                user=self.request.user,
+                address_type='B',
+                default=True
+            )
+            if billing_address_qs.exists():
+                context.update(
+                    {'default_billing_address': billing_address_qs[0]})
+
             return render(self.request, "checkout.html", context)
         except ObjectDoesNotExist:
             messages.info(self.request, "You do not have an active order")
             return redirect("user:checkout")
         return render(self.request, 'checkout.html')
+
+
     def post(self, request):
         try:
             order = Order.objects.get(user=self.request.user, ordered=False)
 
             if order is not None: 
-                street_address = request.POST.get('address1', '')
-                address2 = request.POST.get('address2', '')
-                counrty = request.POST.get('counrty', '')
-                state = request.POST.get('state', '')
-                zip = request.POST.get('zip', '') 
-                # same_billing_address = request.POST.get('same_billing_address', '')
-                # save_info = request.POST.get('save_info', '')
-                payment_option = request.POST.get('paymentMethod', '')
+                use_default_billing = request.POST.get('use_default_billing', '')
+                if use_default_billing:
+                    print("using default billing  address")
+                    address_qs = BillingAddress.objects.filter(
+                        user=self.request.user,
+                        address_type='B',
+                        default=True
+                    )
+                    if address_qs.exists():
+                        billing_address = address_qs[0]
+                        order.billing_address = billing_address
+                        order.save()
+                    else:
+                        messages.info(self.request ,"No default Billing address")
+                        return redirect("user:checkout") 
+                else:
+                    print("the user entering new Billing addres")
+                    #new
+                    street_address = request.POST.get('address1', '')
+                    address2 = request.POST.get('address2', '')
+                    counrty = request.POST.get('counrty', '')
+                    state = request.POST.get('state', '')
+                    zip = request.POST.get('zip', '') 
+                    # same_billing_address = request.POST.get('same_billing_address', '')
+                    # save_info = request.POST.get('save_info', '')
+                    # payment_option = request.POST.get('paymentMethod', '')
 
-                billing_address = BillingAddress(
-                    user=self.request.user,
-                    street_address=street_address,
-                    apartment_address=address2,
-                    country=counrty,
-                    zip=zip
-                )
-                billing_address.save()
-                order.billing_address = billing_address
-                order.save()
+                    billing_address = BillingAddress(
+                        user=self.request.user,
+                        street_address=street_address,
+                        apartment_address=address2,
+                        country=counrty,
+                        zip=zip,
+                        address_type='B'
+                    )
+                    billing_address.save()
+                    order.billing_address = billing_address
+                    order.save()
+                    set_default_billing = request.POST.get('set_default_billing', '')
+                    if set_default_billing:
+                        billing_address.default = True
+                        billing_address.save()
+
+                    else:
+                        messages.info( self.request, "Please fill in the required billing address fields")
+                        return redirect('user:checkout')
+                            
+                payment_option = request.POST.get('paymentMethod', '')
                 #Todo: add redirect to the selected payment option 
                 if payment_option == 'S':
                     return redirect('user:payment', payment_option='stripe')
