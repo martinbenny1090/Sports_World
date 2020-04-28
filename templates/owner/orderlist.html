@@ -1,0 +1,46 @@
+{% extends 'owner/Onav.html'%}
+
+{% block content %}
+<div class="container-fluid">
+        <h1>Order </h1>
+        <table class="table table-borderless">
+                <thead>
+                  <tr>
+                    <th scope="col">No</th>
+                    <th scope="col">user</th>
+                    <th scope="col">ordered_date</th>
+                    <th scope="col">ordered</th>
+                    <th scope="col">ref_code</th>
+                    <th scope="col">billing_address</th>
+                    <th scope="col">payment</th>
+                    <th scope="col">being_delivered</th>
+                    <th scope="col">received</th>
+                    <th scope="col">refund_requested</th>
+                    <th scope="col">refund_granted</th>
+                    <th scope="col">Items</th>
+                  
+                  </tr>
+                </thead> 
+                <tbody>
+                {% for order in orders %}
+                  <tr>
+                    <th scope="row">{{ forloop.counter }}</th>
+                    <td><a href=""> {{order.user}} </a></td>
+                    <td>{{order.ordered_date}}</td>
+                    <td>{{order.ordered}}</td>
+                    <td>{{order.ref_code}}</td>
+                    <td>{{order.billing_address}}</td> 
+                    <td>{{order.payment}}</td> 
+                    <td>{{order.being_delivered}}</td> 
+                    <td>{{order.received}}</td> 
+                    <td>{{order.refund_requested}}</td> 
+                    <td>{{order.refund_granted}}</td> 
+                    <td><a href="{% url 'orderitems' order.user.id %}"> Items </a></td>
+                  </tr>
+                 
+                {% endfor %}
+                </tbody>
+              </table>
+             
+    </div>
+{% endblock %}

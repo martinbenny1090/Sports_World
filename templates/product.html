@@ -22,8 +22,8 @@
       <!--Grid column-->
       <div class="col-md-6 mb-4">
 
-        <img src="https://mdbootstrap.com/img/Photos/Horizontal/E-commerce/Products/14.jpg" class="img-fluid" alt="">
-
+        <!-- <img src="https://mdbootstrap.com/img/Photos/Horizontal/E-commerce/Products/14.jpg" class="img-fluid" alt=""> -->
+              <img src="{{ item.image.url }}" class="img-fluid" alt="{{ object.title }}">
       </div>
       <!--Grid column-->
 
@@ -43,11 +43,11 @@
           <p class="lead">
             {% if item.discount_price %}
             <span class="mr-1">
-                <del>${{ object.price }}</del>
+                <del>Price: {{ object.price }}</del>
               </span>
-              <span>${{ object.discount_price }}</span>
+              <span>Price: {{ object.discount_price }}</span>
             {% else %}
-            <span> {{ object.price }} </span>
+            <span>Price: {{ object.price }} </span>
             {% endif %}
           </p>
 
@@ -67,9 +67,9 @@
           <a href="{{ object.get_add_to_cart_url }}" class="btn btn-primary btn-md my-0 p" >Add to cart
               <i class="fas fa-shopping-cart ml-1"></i>
           </a>
-          <a href="{{ object.get_remove_from_cart_url }}" class="btn btn-danger btn-md my-0 p" >Remove from cart
+          <!-- <a href="{{ object.get_remove_from_cart_url }}" class="btn btn-danger btn-md my-0 p" >Remove from cart
             
-        </a>
+        </a> -->
         </div>
         <!--Content-->
 

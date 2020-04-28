@@ -1,0 +1,48 @@
+{% extends 'owner/Onav.html'%}
+
+{% block css %} 
+
+<style>
+    h4{
+      text-align: center;
+    }
+
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="container">
+<div class="table-responsive">
+  <h4>BillingAddress</h4>
+    <table class="table table-borderless">
+        <thead>
+            <tr>
+              <th scope="col">No</th>
+              <th scope="col">user</th>
+              <th scope="col">street_address</th>
+              <th scope="col">apartment_address</th>
+              <th scope="col">country</th>
+              <th scope="col">zip</th>
+              <th scope="col">address_type</th>
+              <th scope="col">default</th>
+            </tr>
+          </thead>
+          <tbody>
+              {% for b in object_list %}
+            <tr>
+              <th scope="row">{{ forloop.counter }}</th>
+              <td>{{b.user}}</td>
+              <td>{{b.street_address}}</td>
+              <td>{{b.apartment_address}}</td>
+              <td>{{b.country}}</td>
+              <td>{{b.zip}}</td>
+              <td>{{b.address_type}}</td>
+              <td>{{b.default}}</td>
+            </tr> 
+            {% endfor %}
+          </tbody>
+        </table>
+    </table>
+  </div>
+</div>
+{% endblock %}

@@ -69,12 +69,20 @@ class paymentView(View):
             payment.amount = order.get_total()
             payment.save()
 
+            #update stokes
+            
+
             #assign the payment to the order
             order_items = order.items.all()
             order_items.update(ordered=True)
             for item in order_items:
-                item.save()
+                n = item.quantity
+                m = item.item.stock
+                # print(item.item.stock)
 
+                item.AddedDate = timezone.now()#OrderItem add date 
+                item.save()
+            print(m)
             order.ordered = True
             order.payment = payment
             order.ref_code = create_ref_code()#order reference
@@ -367,9 +375,9 @@ class RequestRefundView(View):
 
             # store the refund
             refund = Refund()
-            refund.order = order
-            refund.reason = message
-            refund.email = email
+            refund.order = order 
+            refund.reason = email
+            refund.email = message
             refund.save()
 
             messages.info(self.request, "Your request was received.")
@@ -378,3 +386,8 @@ class RequestRefundView(View):
         except ObjectDoesNotExist:
                 messages.info(self.request, "This order does not exist.")
                 return redirect("user:request-refund")
+
+
+class billing(ListView):
+    model = BillingAddress
+    template_name = "BillingAddress.html"

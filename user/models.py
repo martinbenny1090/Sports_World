@@ -20,10 +20,11 @@ class Item(models.Model):
     discount_price = models.FloatField(blank=True, null=True)
     stock = models.IntegerField(default=1)
     label = models.CharField(choices=LABEL_CHOICES, max_length=1, default="")
-    category = models.CharField(max_length=50, default="")
+    category = models.CharField(max_length=500, default="")
     slug = models.SlugField()
     description = models.TextField(default="")
     image = models.ImageField()
+    # added_date = models.DateTimeField(auto_now_add=True)
     
 
     def __str__(self):
@@ -51,6 +52,7 @@ class OrderItem(models.Model):
     ordered = models.BooleanField(default=False)
     item = models.ForeignKey(Item, on_delete=models.CASCADE)
     quantity = models.IntegerField(default=1)
+    AddedDate = models.DateTimeField()
 
     def __str__(self):
         return f"{self.quantity} of {self.item.title}"
@@ -73,7 +75,7 @@ class OrderItem(models.Model):
 
 class Order(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
-    items = models.ManyToManyField(OrderItem)
+    items = models.ManyToManyField(OrderItem, related_name='items')
     start_date = models.DateTimeField(auto_now_add=True)
     ordered_date = models.DateTimeField()
     ordered = models.BooleanField(default=False)
@@ -119,8 +121,8 @@ class BillingAddress(models.Model):
     def __str__(self):
         return self.user.username 
 
-    # class Meta:
-    #     verbose_name_plural = 'Addresses'
+    class Meta:
+         verbose_name_plural = 'Addresses'
 
 class Payment(models.Model):
     stripe_charge_id = models.CharField(max_length=50)

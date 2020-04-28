@@ -1,0 +1,32 @@
+{% extends 'owner/Onav.html'%}
+
+{% block content %}
+<div class="container">
+        <div class="table-responsive">
+                <table class="table table-borderless">
+                        <thead>
+                                <tr>
+                                  <th scope="col">No</th>
+                                  <th scope="col">User</th>
+                                  <th scope="col">Strip</th>
+                                  <th scope="col">Amount</th>
+                                  <th scope="col">paytime</th>
+                                </tr>
+                              </thead>
+                              <tbody>
+                                  {% for pay in pays %}
+                                <tr>
+                                  <th scope="row">{{ forloop.counter }}</th>
+                                  <td>{{pay.user}}</td>
+                                  <td>{{pay.stripe_charge_id}}</td>
+                                  <td>{{pay.amount}}</td>
+                                  <td>{{pay.timestamp}}</td>
+                                </tr>
+                                {% endfor %}
+                              </tbody>
+                </table>
+              </div>
+
+</div>
+
+{% endblock %}

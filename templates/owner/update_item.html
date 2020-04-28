@@ -1,0 +1,69 @@
+{% extends 'owner/Onav.html'%}
+
+
+{% block content %}
+
+<form method="POST" action="http://127.0.0.1:8000/owner/edit-item/{{item.id}}" enctype="multipart/form-data" >
+        {% csrf_token %}
+<table class="table table-borderless">
+        <thead>
+        <tr>
+        <th scope="col"></th>
+        <th scope="col"></th>
+        <th scope="col"></th>
+        
+        </thead>
+        <tbody>
+
+                <tr>  <button type="submit" class="btn btn-primary mx-2">Submit</button>
+                         <a type="button" class="btn btn-secondary float-right mx-3" href="/owner/itemview/"> Back </a></tr>
+                <tr>
+                        <td><label> Name of Product </label></td>
+                        <td> <input type="text" class="form-control" id="etitle" name='etitle' value="{{item.title}}"> </td> 
+        
+                </tr>
+                <tr>
+                        <td><label> Price per unit </label></td>
+                        <td> <input type="text" class="form-control" id="eprice" name="eprice" value="{{item.price}}"> </td> 
+        
+                </tr>
+                <tr>
+                        <td><label> discount_price </label></td>
+                        <td> <input type="text" class="form-control" id="ediscount_price" name="ediscount_price" value="{{item.discount_price}}"> </td> 
+                </tr>
+                        <tr>
+                                <td><label> stock </label></td>
+                                <td> <input type="text" class="form-control" id="estock" name="estock" value="{{item.stock}}"> </td> 
+                        </tr>
+                        <tr>
+                                <td><label> category </label></td>
+                                <td> <input type="text" class="form-control" id="ecategory" name="ecategory" value="{{item.category}}"> </td> 
+                        </tr>
+                        <tr>
+                                <td><label> slug </label></td>
+                                <td> <input type="text" class="form-control" id ="eslug" name="eslug" value="{{item.slug}}"> </td> 
+                        </tr>
+                        <tr>
+                                <td><label> description </label></td>
+                                <td> <textarea type="text" class="form-control" id="edescription" name="edescription"  rows="3" > </textarea> </td> 
+                        </tr>
+                        <tr>
+                                <td><label>Image</label></td>
+                                <td><input type="file" id="eimage" name="eimage" value="{{item.image.path}}" required >
+                                        <span id="etext"> select a image (current/new) </span><!--new line -->
+                                        <br> current file:{{item.image.path}}
+                                </td>
+                        </tr>
+</tbody>
+</table>
+</form>
+{% endblock %}
+{% block js %}
+<script>
+
+        document.getElementById('edescription').value = "{{ item.description }}"
+        document.getElementById('eimage').value = "{{ item.image.path }}"
+        
+
+</script>
+{% endblock %}

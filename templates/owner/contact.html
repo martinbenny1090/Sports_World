@@ -1,0 +1,31 @@
+{% extends 'owner/Onav.html'%}
+
+
+{% block content %}
+<div class="container">
+    <h1>Contact form customers </h1>
+    <table class="table table-borderless">
+            <thead>
+              <tr>
+                <th scope="col">No</th>
+                <th scope="col">name</th>
+                <th scope="col">email</th>
+                <th scope="col">phone</th>
+                <th scope="col">desc</th>
+              </tr>
+            </thead>
+            <tbody>
+            {% for i in con %}
+              <tr>
+                <th scope="row">{{ forloop.counter }}</th>
+                <td><a href="{% url 'contactdetails' i.msg_id %}"> {{ i.name }} </a></td>
+                <td>{{i.email}}</td>
+                <td>{{i.phone}}</td>
+                <td>{{i.desc}}</td>
+              </tr>
+            {% endfor %}
+            </tbody>
+          </table>
+</div>
+
+{% endblock %}

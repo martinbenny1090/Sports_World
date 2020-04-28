@@ -1,0 +1,39 @@
+{% extends 'owner/Onav.html'%}
+
+{% block content %}
+<div class="container">
+        <div class="table-responsive">
+                <table class="table table-borderless">
+                        <thead>
+                                <tr>
+                                  <th scope="col">No</th>
+                                  <th scope="col">Order</th>
+                                  <th scope="col">Reason</th>
+                                  <th scope="col">Email</th>
+                                  <th scope="col">Accepted</th>
+                                  <th scope="col"></th>
+                                </tr>
+                              </thead>
+                              <tbody>
+                                  {% for req in reqs %}
+                                <tr>
+                                  <th scope="row">{{ forloop.counter }}</th>
+                                  <td>{{req.order}}</td>
+                                  <td>{{req.reason}}</td>
+                                  
+                                  <td>{{req.email}}</td>
+                                  <td>
+                                    {% if req.accepted == True %}
+                                    <input type="checkbox" id="vehicle1" name="vehicle1" value="TRue" checked > accepted</td>
+                                    {% else %}
+                                    <input type="checkbox" id="vehicle1" name="vehicle1" value=""  > accepted</td>
+                                    {% endif %}
+                                    <td><a class="btn btn-outline-warning" href="{% url 'refundUpdate' req.id %}"> Edit  </a></td>
+                                </tr>
+                                {% endfor %}
+                              </tbody>
+                </table>
+              </div>
+
+</div>
+{% endblock %}

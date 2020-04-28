@@ -46,9 +46,10 @@ def register(request):
 
         else:    
             user = User.objects.create_user(username=email, password=password1, email=email,first_name=name)
-            user.save();
+            user.save()
             print('user created')
             return redirect('login')
 
     else:
         return render(request, 'Register.html')
+

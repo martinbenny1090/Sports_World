@@ -1,0 +1,48 @@
+{% extends 'owner/Onav.html'%}
+
+{% block content %}
+<div class="container">
+
+        <table class="table table-borderless">
+               <a type="button" class="btn btn-secondary  mx-3" href="/owner/contact/"> Back </a>
+                <thead>
+                  <tr>
+                    <th scope="col"></th>
+                    <th scope="col"></th>
+                    <th scope="col"></th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <th scope="row">Name</th>
+                    <td> <input type="text" class="form-control" id="name" name='name' value="{{con.name}}" readonly></td>
+                  </tr>
+                <tr>
+                    <th scope="row">email</th>
+                    <td><a href="{{con.email}} ">{{con.email}}</a></td>
+                    <!-- <td> <input type="text" class="form-control" id="name" name='name' value="{{con.email}}" readonly></td> -->
+                </tr>
+                <tr>
+                    <th scope="row">phone</th>
+                    <td> <input type="text" class="form-control" id="name" name='name' value="{{con.phone}}" readonly></td>
+                    
+
+                </tr>
+                <tr>
+                        <th scope="row">Reson for contact</th>
+                        <td> <textarea type="text" class="form-control" id="description" name="description"  rows="3" readonly> </textarea>                    </td>
+                    </tr>
+               
+                </tbody>
+              </table>
+</div>
+{% endblock %}
+{% block js %}
+<script>
+
+        document.getElementById('description').value = "{{con.desc}}"
+        
+        
+
+</script>
+{% endblock %}

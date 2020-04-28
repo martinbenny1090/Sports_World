@@ -1,0 +1,75 @@
+{% extends 'owner/Onav.html'%}
+
+{% block css %} 
+
+<style>
+    table, th, td {
+        border: 1px soli white;
+    }
+
+</style>
+{% endblock %}
+
+{% block content %}
+    <div class="container">
+        <form action="/owner/add-new-item/" method="post" enctype="multipart/form-data" >
+                {% csrf_token %}
+                <table class="table table-borderless">
+                        <thead>
+                        <tr>
+                        <th scope="col"></th>
+                        <th scope="col"></th>
+                        <th scope="col"></th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                                <tr> <a type="button" class="btn btn-secondary float-right mx-3" href="/owner/itemview/"> Back </a></tr>
+                        <tr>
+                        <td><label> Name of Product </label></td>
+                        <td> <input type="text" class="form-control" id="title" name='title' placeholder="Name of product"> </td> 
+                        
+                        </tr>
+                        <tr>
+                                <td><label> Price per unit </label></td>
+                                <td> <input type="text" class="form-control" id="price" name="price" placeholder="Price per unit"> </td> 
+                        </tr>
+                        <tr>
+                                <td><label> discount_price </label></td>
+                                <td> <input type="text" class="form-control" id="discount_price" name="discount_price" placeholder="discount_price"> </td> 
+                        </tr>
+                        <tr>
+                                <td><label> stock </label></td>
+                                <td> <input type="text" class="form-control" id="stock" name="stock" placeholder="stock"> </td> 
+                        </tr>
+                        <tr>
+                                <td><label> category </label></td>
+                                <td> <input type="text" class="form-control" id="category" name="category"placeholder="category"> </td> 
+                        </tr>
+                        <tr>
+                                <td><label> slug </label></td>
+                                <td> <input type="text" class="form-control" id ="slug" name="slug" placeholder="Slug"> </td> 
+                        </tr>
+                        <tr>
+                                <td><label> description </label></td>
+                                <td> <textarea type="text" class="form-control" id="description" name="description"  rows="3" plaseholder="description"> </textarea> </td> 
+                        </tr>
+                        <tr>
+                                <td> <span>Choose image</span></td>
+                                <td> 
+                                <div>
+                                        <input type="file" id="image" name="image" class="" accept="image/*" >
+                                </div>
+
+                                </td> 
+                        </tr>
+                        <tr>
+                        <td colspan="2"><button type="submit" class="btn btn-success">Submit</button></td>
+                        </tr>
+                        </tbody>
+                </table>
+        </form>
+    </div>
+
+  
+{% endblock %}
+

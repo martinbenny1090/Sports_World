@@ -1,0 +1,73 @@
+{% extends 'nav1.html'%}
+{% block css %} 
+<style>
+
+    .navow{
+        background-color: #333;
+        position: fixed;
+        top: -50px;
+        width: 100%;
+        display: block;
+        transition: top 0.3s;
+        }
+    #nbar a {
+        float: left;
+        display: block;
+        color: #f2f2f2;
+        text-align: center;
+        padding: 15px;
+        text-decoration: none;
+        font-size: 17px;
+        }
+    #nbar a:hover {
+        background-color: #ddd;
+        color: black;
+        }
+
+
+  
+
+
+</style>
+{% endblock %}
+{% block body %}
+<nav class="navbar  navbar-expand-lg navbar-light bg-light">
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo01" aria-controls="navbarTogglerDemo01" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarTogglerDemo01">
+      <a class="navbar-brand" href="/owner/itemview/">product View</a>
+      <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+        <li class="nav-item active">
+          <a class="nav-link" href="/owner/">Home <span class="sr-only"></span></a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/owner/OrderItemView/">OrderItems</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="/owner/AddNEWC/">billing address</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="/owner/contact/">contact</a>
+        </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/owner/order/">Order</a>
+        </li>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="/owner/payment/">Payment-details</a>
+     </li>
+     <li class="nav-item">
+      <a class="nav-link" href="/owner/refund/">Refund - Request</a>
+</li>
+      </ul>
+      <form class="form-inline my-2 my-lg-0">
+        <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+        <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+      </form>
+    </div>
+  </nav>
+
+
+
+{% endblock %}
