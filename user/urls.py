@@ -14,6 +14,5 @@ urlpatterns = [
     path('contact', views.contact, name="contact"),
     path('payment/<payment_option>/', paymentView.as_view(), name="payment"),
     path('request-refund/', RequestRefundView.as_view(), name='request-refund'),
-    path('verify-pin-code', views.verify_pin_code, name="verify-pin-code"),
       
 ]

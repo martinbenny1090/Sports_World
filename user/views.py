@@ -189,21 +189,29 @@ class CheckoutView(View):
                     counrty = request.POST.get('counrty', '')
                     state = request.POST.get('state', '')
                     zip = request.POST.get('zip', '') 
+                    pinv = request.POST.get('pinv', '') 
+                    print("haii")
+                    print("haii")
+                    print(pinv)
                     # same_billing_address = request.POST.get('same_billing_address', '')
                     # save_info = request.POST.get('save_info', '')
                     # payment_option = request.POST.get('paymentMethod', '')
-
-                    billing_address = BillingAddress(
-                        user=self.request.user,
-                        street_address=street_address,
-                        apartment_address=address2,
-                        country=counrty,
-                        zip=zip,
-                        address_type='B'
-                    )
-                    billing_address.save()
-                    order.billing_address = billing_address
-                    order.save()
+                    if pinv == 'T':
+                        #new
+                        billing_address = BillingAddress(
+                            user=self.request.user,
+                            street_address=street_address,
+                            apartment_address=address2,
+                            country=counrty,
+                            zip=zip,
+                            address_type='B'
+                        )
+                        billing_address.save()
+                        order.billing_address = billing_address
+                        order.save()
+                    else:
+                        messages.info( self.request, "Plase verify the pincode to delivery item")
+                        return redirect('user:checkout')
                     set_default_billing = request.POST.get('set_default_billing', '')
                     if set_default_billing:
                         billing_address.default = True
@@ -218,7 +226,6 @@ class CheckoutView(View):
                 if payment_option == 'S':
                     return redirect('user:payment', payment_option='stripe')
                 elif payment_option == 'P':
-
                     return redirect('user:payment', payment_option='paypal')
                 else:
                     messages.warning(self.request, "Invalid payment option selected")
@@ -387,10 +394,5 @@ class RequestRefundView(View):
                 messages.info(self.request, "This order does not exist.")
                 return redirect("user:request-refund")
 
-def verify_pin_code(request):
-    zip = request.POST.get('zip', '')
-    print("hai")
-    print("hai")
-    messages.info(request ,"Not possible Here To Deliver " )
-    return redirect("user:checkout")
+
     
