@@ -91,4 +91,6 @@ body{
     background-color: #4285f4!important;
     color: #fff;
 }
-
+.btn-danger{
+    margin-top: 10px;
+}

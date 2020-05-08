@@ -58,7 +58,7 @@
                         <label for="country">Country</label>
                         <select class="custom-select d-block w-100" id="country" name="counrty" >
                           <option value="">Choose...</option>
-                          <option>United States</option>
+                          <option>India</option>
                         </select>
                         <div class="invalid-feedback">
                           Please select a valid country.
@@ -69,28 +69,19 @@
       
                       <!--Grid column-->
                       <div class="col-lg-4 col-md-6 mb-4">
-      
-                        <label for="state">State</label>
-                        <select class="custom-select d-block w-100" id="state" name="state">
-                          <option value="">Choose...</option>
-                          <option>California</option>
-                        </select>
-                        <div class="invalid-feedback">
-                          Please provide a valid state.
-                        </div>
-      
+                          <label for="zip">Pincode</label>
+                          <input type="number" class="form-control" id="zip" name="zip" maxlength="2" onKeyDown="limitText(this,6);" onKeyUp="limitText(this,6);">
+                          <div class="invalid-feedback">
+                            Pin  code required. 
+                          </div>
                       </div>
                       <!--Grid column-->
       
                       <!--Grid column-->
                       <div class="col-lg-4 col-md-6 mb-4">
-      
-                        <label for="zip">Zip</label>
-                        <input type="text" class="form-control" id="zip" name="zip" placeholder="">
-                        <div class="invalid-feedback">
-                          Zip code required.
-                        </div>
-      
+                          <label for="zip"></label>
+                          <button type="button" onclick="myFunction()" class="btn btn-danger w-100" >verify pin</button>
+                          <p id="demo"></p>
                       </div>
                       <!--Grid column-->
       
@@ -149,7 +140,7 @@
 
     {% block js %} 
       <script>
-      
+        var pin = document.getElementById("zip").value;
         var hideable_billing_form = $('.hideable_billing_form');
 
       
@@ -162,5 +153,14 @@
             hideable_billing_form.show();
           }
         })
+        function myFunction() {
+          var inputVal = document.getElementById("zip").value;
+          alert( inputVal);
+        }
+        function limitText(limitField, limitNum) {
+          if (limitField.value.length > limitNum) {
+              limitField.value = limitField.value.substring(0, limitNum);
+          }
+      }
               </script>
 {% endblock %}

@@ -1,6 +1,6 @@
 from django.urls import path
 from . import views 
-from  user.views import HomeView, ItemDetailView, OrderSummaryView, CheckoutView, paymentView, RequestRefundView, billing
+from  user.views import HomeView, ItemDetailView, OrderSummaryView, CheckoutView, paymentView, RequestRefundView
 
 app_name = 'user'
 urlpatterns = [
@@ -14,7 +14,6 @@ urlpatterns = [
     path('contact', views.contact, name="contact"),
     path('payment/<payment_option>/', paymentView.as_view(), name="payment"),
     path('request-refund/', RequestRefundView.as_view(), name='request-refund'),
-    path('billing/', billing.as_view(), name="billing"),
-    
-   
+    path('verify-pin-code', views.verify_pin_code, name="verify-pin-code"),
+      
 ]

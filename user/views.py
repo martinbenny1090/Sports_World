@@ -387,7 +387,10 @@ class RequestRefundView(View):
                 messages.info(self.request, "This order does not exist.")
                 return redirect("user:request-refund")
 
-
-class billing(ListView):
-    model = BillingAddress
-    template_name = "BillingAddress.html"
+def verify_pin_code(request):
+    zip = request.POST.get('zip', '')
+    print("hai")
+    print("hai")
+    messages.info(request ,"Not possible Here To Deliver " )
+    return redirect("user:checkout")
+    
