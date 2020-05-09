@@ -11,6 +11,7 @@ from django.core.exceptions import ObjectDoesNotExist
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.conf import settings
+from math import ceil
 
 import random
 import string
@@ -190,9 +191,6 @@ class CheckoutView(View):
                     state = request.POST.get('state', '')
                     zip = request.POST.get('zip', '') 
                     pinv = request.POST.get('pinv', '') 
-                    print("haii")
-                    print("haii")
-                    print(pinv)
                     # same_billing_address = request.POST.get('same_billing_address', '')
                     # save_info = request.POST.get('save_info', '')
                     # payment_option = request.POST.get('paymentMethod', '')
@@ -394,5 +392,25 @@ class RequestRefundView(View):
                 messages.info(self.request, "This order does not exist.")
                 return redirect("user:request-refund")
 
+def searchMatch(query, item):
+    '''return true only if query matches the item'''
+    if query in item.description.lower() or query in item.title.lower() or query in item.category.lower():
+        return True
+    else:
+        return False
 
+
+def search(request):
+    paginate_by = 1
+    query = request.GET.get('search')
+    items_temp = Item.objects.all()
+    items = [item for item in items_temp if searchMatch(query, item)]
+    params = {'items': items, "msg": "" }
+    counter = 0
+    for c in items: # traverse the string “educative”
+        counter+=1
+    if counter == 0:
+        messages.info(request, "No Item founded")
+        return redirect("/")
+    return render(request, "search.html", params)
     

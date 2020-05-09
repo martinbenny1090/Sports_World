@@ -14,5 +14,6 @@ urlpatterns = [
     path('contact', views.contact, name="contact"),
     path('payment/<payment_option>/', paymentView.as_view(), name="payment"),
     path('request-refund/', RequestRefundView.as_view(), name='request-refund'),
+    path('search', views.search, name="search"),
       
 ]
