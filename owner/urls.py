@@ -1,6 +1,6 @@
 from django.urls import path
 from . import views
-from  owner.views import orderitems, AddNEWC, ItemView,AddNewItem, EditItem, NewOwner, DeleteItem, OrderItemView, OrderitemDetails, contact, contactdetails, order, payment, refund, refundUpdate
+from  owner.views import order_item, orderitems, AddNEWC, ItemView,AddNewItem, EditItem, NewOwner, DeleteItem, contact, contactdetails, order, payment, refund, refundUpdate
 
 
 
@@ -11,8 +11,6 @@ urlpatterns = [
     path('add-new-item/', AddNewItem.as_view(), name="add-new-item"),
     path('edit-item/<int:id>',EditItem.as_view(), name="edit-item"),
     path('DeleteItem/<int:id>', DeleteItem.as_view(), name="DeleteItem"),
-    # path('OrderItemView/', OrderItemView.as_view(), name="OrderItemView"),
-    # path('OrderitemDetails/<int:id>', OrderitemDetails.as_view(), name="OrderitemDetails"),
     path('contact/', contact.as_view(), name="contact"),
     path('contactdetails/<int:id>', contactdetails.as_view(), name="contactdetails"),
     path('order/', order.as_view(), name="order"),
@@ -21,4 +19,5 @@ urlpatterns = [
     path('refundUpdate/<int:id>', refundUpdate.as_view(), name="refundUpdate"),
     path('AddNEWC/', AddNEWC.as_view(), name="AddNEWC"),
     path('orderitems/<int:id>', orderitems.as_view(), name="orderitems"),
+    path('orderitemslist/', order_item.as_view(), name="orderitemslist"),
 ]

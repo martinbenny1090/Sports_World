@@ -12,6 +12,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.conf import settings
 from math import ceil
+from django.core.paginator import Paginator
 
 import random
 import string
@@ -71,19 +72,27 @@ class paymentView(View):
             payment.save()
 
             #update stokes
-            
+            order_items = order.items.all()
+            for item in order_items:
+                item_slug = item.item.slug
+                print(item_slug)
+                stock_item = Item.objects.filter(slug=item_slug)
+                print(stock_item)
+                m = stock_item.title
+                print(item.category)
+                # if item.item.stock > 1:
+                #     n = item.quantity
+                #     item.item.stock -= n
+                #     item.save()
+                #     print(item.item.stock)
+                #     print(n)
 
             #assign the payment to the order
             order_items = order.items.all()
             order_items.update(ordered=True)
             for item in order_items:
-                n = item.quantity
-                m = item.item.stock
-                # print(item.item.stock)
-
                 item.AddedDate = timezone.now()#OrderItem add date 
                 item.save()
-            print(m)
             order.ordered = True
             order.payment = payment
             order.ref_code = create_ref_code()#order reference
@@ -131,13 +140,7 @@ class paymentView(View):
             messages.warning(self.request, "A serious error occurred. We have been notifed.")
             return redirect("/")        
                 
-
-        
-       
-        
-
-
-
+                
 class CheckoutView(View):
     def get(self, *args, **kwargs):
         try:
@@ -400,17 +403,23 @@ def searchMatch(query, item):
         return False
 
 
-def search(request):
-    paginate_by = 1
-    query = request.GET.get('search')
-    items_temp = Item.objects.all()
-    items = [item for item in items_temp if searchMatch(query, item)]
-    params = {'items': items, "msg": "" }
-    counter = 0
-    for c in items: # traverse the string “educative”
-        counter+=1
-    if counter == 0:
-        messages.info(request, "No Item founded")
-        return redirect("/")
-    return render(request, "search.html", params)
+class search(View):
     
+    def get(request):
+        query = request.GET.get('search')
+        items_temp = Item.objects.all()
+        paginate_by = 1
+        is_paginated = True
+        items = [item for item in items_temp if searchMatch(query, item)]
+        params = {
+            'items': items
+             }
+        counter = 0
+        for c in items: # traverse the string “educative”
+            counter+=1
+        if counter == 0:
+            messages.info(request, "No Item founded")
+            return redirect("/")
+        paginator = Paginator(items, 1)
+        return render(request, "search.html", params)
+        

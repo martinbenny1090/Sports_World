@@ -5,6 +5,13 @@ from django.views.generic import ListView, DetailView, View
 from django.core.exceptions import ObjectDoesNotExist
 from django.contrib.auth.models import User, auth
 # Create your views here.
+
+class order_item(View):
+    def get(self, request):
+        items = OrderItem.objects.all()
+        return render(request, "owner/order-items.html", {'items': items})
+
+
 class order(View):
     def get(self, request):
         items = OrderItem.objects.all()
@@ -129,15 +136,6 @@ class DeleteItem(ListView):
  
 
 #model =OrderItem
-
-class OrderItemView(ListView):
-    model = OrderItem
-    template_name = "owner/orderitem.html"
-
-class OrderitemDetails(View):
-    def get(self, request, id):
-        order = OrderItem.objects.filter(id=id)
-        return render(request, "owner/OrderitemDetails.html", {'order': order[0]} )
 
 
 

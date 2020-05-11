@@ -1,6 +1,6 @@
 from django.urls import path
 from . import views 
-from  user.views import HomeView, ItemDetailView, OrderSummaryView, CheckoutView, paymentView, RequestRefundView
+from  user.views import search, HomeView, ItemDetailView, OrderSummaryView, CheckoutView, paymentView, RequestRefundView
 
 app_name = 'user'
 urlpatterns = [
@@ -14,6 +14,6 @@ urlpatterns = [
     path('contact', views.contact, name="contact"),
     path('payment/<payment_option>/', paymentView.as_view(), name="payment"),
     path('request-refund/', RequestRefundView.as_view(), name='request-refund'),
-    path('search', views.search, name="search"),
+    path('search', search.as_view(), name="search"),
       
 ]

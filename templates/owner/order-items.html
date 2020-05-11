@@ -1,0 +1,44 @@
+{% extends 'owner/Onav.html'%}
+
+{% block css %} 
+
+<style>
+    h4{
+      text-align: center;
+    }
+
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="table-responsive">
+      <h4>Order Items list</h4>
+        <table class="table table-borderless">
+            <thead>
+                <tr>
+                  <th scope="col">No</th>
+                  <th scope="col">user</th>
+                  <th scope="col">ordered</th>
+                  <th scope="col">item</th>
+                  <th scope="col">quantity</th>
+                  <th scope="col">AddedDate</th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for item in items %}
+                  <tr>
+                    <th scope="row">{{ forloop.counter }}</th>
+                    <td>{{item.user}}</td>
+                    <td>{{item.ordered}}</td>
+                    <td>{{item.item}}</td>
+                    <td>{{item.quantity}}</td>
+                    <td>{{item.AddedDate}}</td> 
+                  </tr>
+                 
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+      </div>
+              {% endblock %}
