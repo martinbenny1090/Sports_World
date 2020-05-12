@@ -48,6 +48,15 @@
                       <input type="text" id="address2" name="address2" class="form-control" placeholder="Apartment or suite">
                       
                     </div>
+
+                    <div class="col-lg-4 col-md-12 mb-4">
+                        <div class="form-group">
+                            <label for="exampleInputPassword1">Phone</label>
+                            <!-- <input type="number" class="form-control" id="phone" name="phone"> -->
+                            <input type="number" class="form-control" id="phone" name="phone" pattern="/^-?\d+\.?\d*$/" onKeyPress="if(this.value.length==10) return false;" />
+                          </div>
+                          
+                      </div>
       
                     <!--Grid row-->
                     <div class="row">
@@ -70,7 +79,7 @@
                       <!--Grid column-->
                       <div class="col-lg-4 col-md-6 mb-4">
                           <label for="zip">Pincode</label>
-                          <input type="number" class="form-control" id="zip" name="zip" maxlength="2" onKeyDown="limitText(this,6);" onKeyUp="limitText(this,6);">
+                          <input type="number" class="form-control" id="zip" name="zip" pattern="/^-?\d+\.?\d*$/" onKeyPress="if(this.value.length==6) return false;" />
                           <div class="invalid-feedback">
                               <input type="hidden" id="pinv" name="pinv" >
                             Pin  code required. 
@@ -181,10 +190,6 @@
           
         }
 
-        function limitText(limitField, limitNum) {
-          if (limitField.value.length > limitNum) {
-              limitField.value = limitField.value.substring(0, limitNum);
-          }
-      }
+        
               </script>
 {% endblock %}

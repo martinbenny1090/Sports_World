@@ -18,6 +18,11 @@ import random
 import string
 stripe.api_key = 'sk_test_S3eXvxJrVCROKaPdNikrD15300UsFQvwPS'
 
+class About_as(View):
+    def get(request):
+        return render (request, "about.html")
+    
+
 def create_ref_code():
     return ''.join(random.choices(string.ascii_lowercase + string.digits, k=20))
 
@@ -194,6 +199,7 @@ class CheckoutView(View):
                     state = request.POST.get('state', '')
                     zip = request.POST.get('zip', '') 
                     pinv = request.POST.get('pinv', '') 
+                    phone = request.POST.get('phone', '')
                     # same_billing_address = request.POST.get('same_billing_address', '')
                     # save_info = request.POST.get('save_info', '')
                     # payment_option = request.POST.get('paymentMethod', '')
@@ -205,7 +211,8 @@ class CheckoutView(View):
                             apartment_address=address2,
                             country=counrty,
                             zip=zip,
-                            address_type='B'
+                            address_type='B',
+                            phone = phone
                         )
                         billing_address.save()
                         order.billing_address = billing_address
@@ -218,9 +225,9 @@ class CheckoutView(View):
                         billing_address.default = True
                         billing_address.save()
 
-                    else:
-                        messages.info( self.request, "Please fill in the required billing address fields")
-                        return redirect('user:checkout')
+                    # else:
+                    #     messages.info( self.request, "Please fill in the required billing address fields")
+                    #     return redirect('user:checkout')
                             
                 payment_option = request.POST.get('paymentMethod', '')
                 #Todo: add redirect to the selected payment option 
