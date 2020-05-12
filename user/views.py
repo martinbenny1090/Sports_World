@@ -19,8 +19,9 @@ import string
 stripe.api_key = 'sk_test_S3eXvxJrVCROKaPdNikrD15300UsFQvwPS'
 
 class About_as(View):
-    def get(request):
-        return render (request, "about.html")
+
+    def get(self, request):
+        return render (request, 'about.html')
     
 
 def create_ref_code():
