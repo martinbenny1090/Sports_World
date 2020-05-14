@@ -12,7 +12,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.conf import settings
 from math import ceil
-from django.core.paginator import Paginator
+import win32api
 
 import random
 import string
@@ -77,21 +77,6 @@ class paymentView(View):
             payment.amount = order.get_total()
             payment.save()
 
-            #update stokes
-            order_items = order.items.all()
-            for item in order_items:
-                item_slug = item.item.slug
-                print(item_slug)
-                stock_item = Item.objects.filter(slug=item_slug)
-                print(stock_item)
-                m = stock_item.title
-                print(item.category)
-                # if item.item.stock > 1:
-                #     n = item.quantity
-                #     item.item.stock -= n
-                #     item.save()
-                #     print(item.item.stock)
-                #     print(n)
 
             #assign the payment to the order
             order_items = order.items.all()
@@ -103,7 +88,8 @@ class paymentView(View):
             order.payment = payment
             order.ref_code = create_ref_code()#order reference
             order.save()
-            messages.success(self.request, "Your order was sucessfull")    
+            win32api.MessageBox(0, "Your order was sucessfull . we  will Contact you as soon as possible ", 'Sport world', 0x00001000) 
+               
             return redirect("/")
                 
         except stripe.error.CardError as e:
@@ -201,9 +187,6 @@ class CheckoutView(View):
                     zip = request.POST.get('zip', '') 
                     pinv = request.POST.get('pinv', '') 
                     phone = request.POST.get('phone', '')
-                    # same_billing_address = request.POST.get('same_billing_address', '')
-                    # save_info = request.POST.get('save_info', '')
-                    # payment_option = request.POST.get('paymentMethod', '')
                     if pinv == 'T':
                         #new
                         billing_address = BillingAddress(
@@ -416,8 +399,6 @@ class search(View):
     def get(request):
         query = request.GET.get('search')
         items_temp = Item.objects.all()
-        paginate_by = 1
-        is_paginated = True
         items = [item for item in items_temp if searchMatch(query, item)]
         params = {
             'items': items
