@@ -11,7 +11,6 @@ from django.core.exceptions import ObjectDoesNotExist
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.conf import settings
-from math import ceil
 import win32api
 
 import random
@@ -412,3 +411,16 @@ class search(View):
         paginator = Paginator(items, 1)
         return render(request, "search.html", params)
         
+def myorders(request):
+    myitems = Order.objects.filter(user=request.user, refund_requested=False)
+    order = Order.objects.get(user=request.user)
+    print(myitems)
+    order_items = order.items.all()
+    print(order_items)
+    for i in myitems:
+        print(i.id)
+        print(i.user.id)
+        id = i.user.id
+        items = OrderItem.objects.filter(user_id=id)
+        
+    return render(request, 'myorders.html', { 'myitems': myitems})
