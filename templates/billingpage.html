@@ -1,0 +1,40 @@
+{% extends 'nav.html'%}
+
+{% block title %} Billing Page {% endblock %}
+{% block css %}
+<style>
+    body{
+        background-color: #a7a0ad;
+    }
+
+    .card{
+        background-color: #fff;
+        padding: 50px 50px 50px 50px;
+        margin:50px;
+    }
+</style>
+{% endblock %}
+
+
+{% block content %}
+
+<div class="container">
+    <div class="row">
+        <div class="col"></div>
+
+        <div class="col-md-12">
+            <div class="card card-body">
+                 <div class="text-center"> 
+                <h3>Download Bill</h3>
+                {% for i in d %}
+                <a class="btn btn-info" href="{% url 'user:pdf_view' i.id %}" target="_blank">View </a>
+                
+                {% endfor %}
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md"></div>
+    </div>
+</div>
+{% endblock %}

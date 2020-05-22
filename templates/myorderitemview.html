@@ -1,0 +1,42 @@
+{% extends 'nav.html'%}
+
+{% block css %}
+<style>
+    .row-image{
+        width: 100px;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="container">
+        <div class="table-responsive text-nowrap">
+                <h2> My Order Summary</h2>
+            <table class="table">
+                <thead>
+                    <tr>
+                    <th scope="col">#</th>
+                    <th scope="col"><strong></strong></th>
+                    <th scope="col"><strong>Items</strong></th>
+                    <th scope="col"><strong>Quantity</strong></th>
+                    <th scope="col"><strong>Date of purchase</strong></th>
+                    
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for item in items %}
+                <tr>
+                    <th scope="row">{{ forloop.counter }}</th>
+                    <td><img class="row-image" src = "{{ item.item.image.url }}" </td>
+                    <td><a href="{{ item.item.get_absolute_url }}"> {{ item.item }} </a></td>
+                    <td>{{ item.quantity }}</td>
+                    <td>{{ item.AddedDate }}</td>
+                    {% endfor %} 
+                </tr>
+                </tbody>
+             </table>
+            </div>
+
+</div>
+
+{% endblock %}

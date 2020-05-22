@@ -3,12 +3,6 @@ from django.shortcuts import reverse
 from django.conf import settings
 
 # Create your models here.
-LABEL_CHOICES = (
-    ('P', 'primary'),
-    ('S', 'success'),
-    ('D', 'danger'),
-    ('N', 'null')
-)
 ADDRESS_CHOICES = (
     ('B', 'Billing'),
     ('S', 'Shipping'),
@@ -19,12 +13,10 @@ class Item(models.Model):
     price = models.FloatField()
     discount_price = models.FloatField(blank=True, null=True)
     stock = models.IntegerField(default=1)
-    # label = models.CharField(choices=LABEL_CHOICES, max_length=1, default="")
     category = models.CharField(max_length=500, default="")
     slug = models.SlugField()
     description = models.TextField(default="")
     image = models.ImageField()
-    # added_date = models.DateTimeField(auto_now_add=True)
     
 
     def __str__(self):
@@ -53,6 +45,7 @@ class OrderItem(models.Model):
     item = models.ForeignKey(Item, on_delete=models.CASCADE)
     quantity = models.IntegerField(default=1)
     AddedDate = models.DateTimeField()
+    order_id = models.ForeignKey('Order', on_delete=models.CASCADE)
 
     def __str__(self):
         return f"{self.quantity} of {self.item.title}"

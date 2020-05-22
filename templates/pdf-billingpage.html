@@ -1,0 +1,99 @@
+
+
+{% block css %}
+<style>
+        @page {
+            size: a4 portrait;
+            @frame header_frame {           /* Static Frame */
+                -pdf-frame-content: header_content;
+                left: 50pt; width: 512pt; top: 50pt; height: 40pt;
+            }
+            @frame content_frame {          /* Content Frame */
+                left: 50pt; width: 512pt; top: 90pt; height: 632pt;
+            }
+            @frame footer_frame {           /* Another static Frame */
+                -pdf-frame-content: footer_content;
+                left: 50pt; width: 512pt; top: 772pt; height: 20pt;
+            }
+        }
+
+</style>
+{% endblock %}
+
+{% block content %}
+<div id="header_content">
+    	<h3>Sports World </h3>
+    </div>
+
+    <!-- Content for Static Frame 'footer_frame' -->
+    <div id="footer_content">(c) - page <pdf:pagenumber>
+        of <pdf:pagecount>
+    </div>
+
+    <!-- HTML Content -->
+    <table>
+    		<tr>
+				{% for i in d %}
+				<td>{{i.user.first_name}}<br>
+    			{{i.billing_address.street_address}}<br>
+				{{i.billing_address.apartment_address}}<br>
+				{{i.billing_address.zip}}<br>
+				{{i.billing_address.phone}}<br>
+				<strong>Ref_Code: {{i.ref_code}}</strong><br>
+				
+			</td>
+				{% endfor %}
+				<td>{{website}}<br>
+					{{email}}<br>
+					{{phone}} <br>
+					{{zipcode}}<br>
+				</td>
+    		</tr>
+    </table>
+
+    <hr>
+
+    <table>
+    	<tr>
+ 
+    		<th>Product</th>
+    		<th>Price</th>
+    		<th>Quantity</th>
+    		<th>Total</th>
+    	</tr>
+    	{% for i in order_items %}
+    	<tr>
+ 
+    		<td>{{ i.item.title }}</td>
+    		<td>{{ i.item.price }}</td>
+    		<td>{{ i.quantity }}</td>
+    		<td>{{ i.get_final_prise }}</td>
+		</tr>
+		{% endfor %}
+
+	</table>
+	<hr>
+	<table>
+			<tr>
+	 
+				<th></th>
+				<th></th>
+				<th></th>
+				<th></th>
+				
+			</tr>
+			<tr>
+				{% for i in d %}
+	 
+				<td></td>
+				<td></td>
+				<td></td>
+				<td><strong>Total: {{i.payment.amount}}</strong></td>
+				{% endfor %}
+			</tr>
+			
+	
+		</table>
+
+   
+{% endblock %}

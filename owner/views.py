@@ -28,7 +28,7 @@ class orderitems(View):
         if item is not None:
             return render(request, "owner/orderlist-items.html", {'item': item })
         else:
-            messages.warning(self.request, "You do not have a billing address")    
+            messages.warning(self.request, "You do not have any order items")    
             return redirect("/owner/order/")
 class contact(View):
     def get(self, request):

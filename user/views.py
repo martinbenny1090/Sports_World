@@ -11,6 +11,10 @@ from django.core.exceptions import ObjectDoesNotExist
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.conf import settings
+from io import BytesIO
+from django.template.loader import get_template
+from django.views import View
+from xhtml2pdf import pisa
 import win32api
 
 import random
@@ -31,10 +35,12 @@ class paymentView(View):
     def get(self, *args, **kwargs):
         #order
         order = Order.objects.get(user=self.request.user, ordered=False)
+        porder = Order.objects.filter(user=self.request.user, ordered=False)
         if order is not None:  
             if order.billing_address:
                 context = {
-                    'order': order
+                    'order': order,
+                    'porder':porder
                 }
                 return render(self.request, "payment.html", context)
             else:
@@ -47,6 +53,7 @@ class paymentView(View):
 
     def post(self, *args, **kwargs):
         order = Order.objects.get(user=self.request.user, ordered=False)
+        porder = Order.objects.filter(user=self.request.user, ordered=False)
         publishKey = settings.STRIPE_PUBLISHABLE_KEY #new
         token = self.request.POST.get('stripeToken')
         amount = int(order.get_total())
@@ -76,20 +83,28 @@ class paymentView(View):
             payment.amount = order.get_total()
             payment.save()
 
+            #pdf function 
+            print(order.id)
+            p = int(order.id)
+            print(p)
 
             #assign the payment to the order
             order_items = order.items.all()
             order_items.update(ordered=True)
             for item in order_items:
                 item.AddedDate = timezone.now()#OrderItem add date 
+                item.order_id = order
                 item.save()
             order.ordered = True
             order.payment = payment
             order.ref_code = create_ref_code()#order reference
             order.save()
+            
             win32api.MessageBox(0, "Your order was sucessfull . we  will Contact you as soon as possible ", 'Sport world', 0x00001000) 
-               
-            return redirect("/")
+            
+            return redirect('user:billingpage', p)  #new direcert here 
+            # return redirect("/")
+            
                 
         except stripe.error.CardError as e:
             body = e.json_body
@@ -413,14 +428,70 @@ class search(View):
         
 def myorders(request):
     myitems = Order.objects.filter(user=request.user, refund_requested=False)
-    order = Order.objects.get(user=request.user)
-    print(myitems)
-    order_items = order.items.all()
-    print(order_items)
-    for i in myitems:
-        print(i.id)
-        print(i.user.id)
-        id = i.user.id
-        items = OrderItem.objects.filter(user_id=id)
-        
-    return render(request, 'myorders.html', { 'myitems': myitems})
+    order = Order.objects.filter(user=request.user, refund_requested=True)
+    print(order)
+    param = {
+        'myitems': myitems,
+        'order' : order,
+    }    
+    return render(request, 'myorders.html', param)
+
+
+def myorderItemsView(request,id):
+    items = OrderItem.objects.filter(user=request.user,order_id=id)
+    return render(request, 'myorderitemview.html', {'items': items})
+
+class billingpage(View):
+    def get(self, request, p):
+    
+        d = Order.objects.filter(id=p)
+        context = {
+            'd': d,
+        }
+        return render(self.request, 'billingpage.html', context)
+
+def render_to_pdf(template_src, context_dict={}):
+	template = get_template(template_src)
+	html  = template.render(context_dict)
+	result = BytesIO()
+	pdf = pisa.pisaDocument(BytesIO(html.encode("ISO-8859-1")), result)
+	if not pdf.err:
+		return HttpResponse(result.getvalue(), content_type='application/pdf')
+	return None
+
+
+# data = {
+# 	"company": "Dennnis Ivanov Company",
+# 	"address": "123 Street name",
+# 	"city": "Vancouver",
+# 	"state": "WA",
+# 	"zipcode": "98663",
+
+
+# 	"phone": "555-555-2345",
+# 	"email": "youremail@dennisivy.com",
+# 	"website": "dennisivy.com",
+# 	}
+
+#Opens up page as PDF
+class ViewPDF(View):
+
+    def get(self, request, id):
+
+        d = Order.objects.filter(id=id)
+        p = Order.objects.get(id=id)
+        order_items = p.items.all()
+        data = {
+        "company": "Sports World",
+
+        "website": "Sports World",
+        "email": "martin8086benny@gmail.com",
+        "phone": "+91-9475843265",
+        "zipcode": "686581",
+        "d": d,
+        "order_items": order_items,
+        }
+
+        pdf = render_to_pdf('pdf-billingpage.html', data)
+        return HttpResponse(pdf, content_type='application/pdf')
+
