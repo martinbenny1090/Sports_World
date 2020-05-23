@@ -445,8 +445,22 @@ class billingpage(View):
     def get(self, request, p):
     
         d = Order.objects.filter(id=p)
+        a = Order.objects.get(id=p)
+        order_items = a.items.all()
+    
+        for i in order_items:
+            m = i.quantity
+            n = i.item.id
+            q = i.item.stock
+            b = q - m
+            s = Item.objects.get(id=n)
+            print(s.stock)
+            s.stock = b
+            s.save()
+
         context = {
             'd': d,
+            'order_items': order_items,
         }
         return render(self.request, 'billingpage.html', context)
 
@@ -460,18 +474,6 @@ def render_to_pdf(template_src, context_dict={}):
 	return None
 
 
-# data = {
-# 	"company": "Dennnis Ivanov Company",
-# 	"address": "123 Street name",
-# 	"city": "Vancouver",
-# 	"state": "WA",
-# 	"zipcode": "98663",
-
-
-# 	"phone": "555-555-2345",
-# 	"email": "youremail@dennisivy.com",
-# 	"website": "dennisivy.com",
-# 	}
 
 #Opens up page as PDF
 class ViewPDF(View):
