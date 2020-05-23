@@ -1,6 +1,6 @@
 from django.urls import path
 from . import views 
-from  user.views import billingpage, ViewPDF, About_as, search, HomeView, ItemDetailView, OrderSummaryView, CheckoutView, paymentView, RequestRefundView
+from  user.views import billingpage, ViewPDF, About_as, HomeView, ItemDetailView, OrderSummaryView, CheckoutView, paymentView, RequestRefundView
 
 app_name = 'user'
 urlpatterns = [
@@ -14,11 +14,11 @@ urlpatterns = [
     path('contact', views.contact, name="contact"),
     path('payment/<payment_option>/', paymentView.as_view(), name="payment"),
     path('request-refund/', RequestRefundView.as_view(), name='request-refund'),
-    path('search', search.as_view(), name="search"),
     path('About-As', About_as.as_view(), name="About-As"),
     path('myorders/', views.myorders, name='myorders'),
     path('myorderItemsView/<id>', views.myorderItemsView, name='myorderItemsView'),
     path('billingpage/<p>', billingpage.as_view(), name='billingpage'),
     path('pdf_view/<int:id>', ViewPDF.as_view(), name="pdf_view"),
+    path('search/', views.search , name="search"),
       
 ]

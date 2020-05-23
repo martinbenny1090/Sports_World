@@ -36,6 +36,7 @@
                     <td>{{order.refund_requested}}</td> 
                     <td>{{order.refund_granted}}</td> 
                     <td><a href="{% url 'orderitems' order.user.id %}"> Items </a></td>
+                    <td><a class="btn btn-outline-warning" href="#"> Edit  </a></td>
                   </tr>
                  
                 {% endfor %}

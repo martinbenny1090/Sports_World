@@ -35,12 +35,11 @@ class paymentView(View):
     def get(self, *args, **kwargs):
         #order
         order = Order.objects.get(user=self.request.user, ordered=False)
-        porder = Order.objects.filter(user=self.request.user, ordered=False)
         if order is not None:  
             if order.billing_address:
                 context = {
                     'order': order,
-                    'porder':porder
+                    
                 }
                 return render(self.request, "payment.html", context)
             else:
@@ -86,7 +85,6 @@ class paymentView(View):
             #pdf function 
             print(order.id)
             p = int(order.id)
-            print(p)
 
             #assign the payment to the order
             order_items = order.items.all()
@@ -400,6 +398,7 @@ class RequestRefundView(View):
                 messages.info(self.request, "This order does not exist.")
                 return redirect("user:request-refund")
 
+
 def searchMatch(query, item):
     '''return true only if query matches the item'''
     if query in item.description.lower() or query in item.title.lower() or query in item.category.lower():
@@ -407,24 +406,21 @@ def searchMatch(query, item):
     else:
         return False
 
-
-class search(View):
-    
-    def get(request):
-        query = request.GET.get('search')
-        items_temp = Item.objects.all()
-        items = [item for item in items_temp if searchMatch(query, item)]
-        params = {
-            'items': items
-             }
-        counter = 0
-        for c in items: # traverse the string “educative”
-            counter+=1
-        if counter == 0:
-            messages.info(request, "No Item founded")
+def search(request):
+    query = request.GET.get('search')
+    items_temp = Item.objects.all()
+    items = [item for item in items_temp if searchMatch(query, item)]
+    params = {
+        'items': items
+        }
+    count=0
+    for i in items:
+        count = 1
+    if count == 0 or len(query)<3:
+            messages.warning(request, "Plase make sure to enter the revelant search query No item found")
             return redirect("/")
-        paginator = Paginator(items, 1)
-        return render(request, "search.html", params)
+
+    return render(request, "search.html", params)
         
 def myorders(request):
     myitems = Order.objects.filter(user=request.user, refund_requested=False)

@@ -24,11 +24,17 @@
                                   <td>{{req.email}}</td>
                                   <td>
                                     {% if req.accepted == True %}
-                                    <input type="checkbox" id="vehicle1" name="vehicle1" value="TRue" checked > accepted</td>
+                                    <input type="checkbox" id="vehicle1" name="vehicle1" value="TRue" checked readonly> accepted</td>
                                     {% else %}
-                                    <input type="checkbox" id="vehicle1" name="vehicle1" value=""  > accepted</td>
+                                    <input type="checkbox" id="vehicle1" name="vehicle1" value="" readonly > accepted</td>
                                     {% endif %}
                                     <td><a class="btn btn-outline-warning" href="{% url 'refundUpdate' req.id %}"> Edit  </a></td>
+                                </tr>
+                                {% empty %}
+                                <tr>
+                                  <td>
+                                  <h4>You have no refund request</h4>
+                                </td>
                                 </tr>
                                 {% endfor %}
                               </tbody>

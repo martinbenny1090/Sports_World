@@ -37,7 +37,7 @@
             </tbody>
          </table>
         </div>
-        <!--refund requested -->
+        <!--refund requested 
         <div class="table-responsive text-nowrap row2">
             <h2> Refund Requested</h2>
         <table class="table">
@@ -60,10 +60,15 @@
                 <td>{{ item.ref_code }}</td>
                 <td>{{ item.ordered_date }}</td>
                 <td><a href="{% url 'user:myorderItemsView' item.id %}"">items</a></td>
-                {% endfor %} 
+                {% empty %}
+                 <tr>
+                     <td > <strong> You have no refund request </strong>  </td>
+                 </tr>
             </tr>
+                {% endfor %} 
+                
             </tbody>
-         </table>
+         </table>-->
         
         </div>
 </div>
