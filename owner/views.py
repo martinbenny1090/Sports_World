@@ -22,6 +22,33 @@ class order(View):
         }
         return render(request, "owner/orderlist.html", context)
 
+class edit_order(View):
+
+    def get(self, request, id):
+        order = Order.objects.get(id=id)
+        return render(self.request, 'owner/edit-order.html', {'order': order})
+
+    def post(self, request, id):
+        p = Order.objects.filter(id=id)
+        being_delivered = request.POST.get('being_delivered')
+        received = request.POST.get('received')
+        refund_granted = request.POST.get('refund_granted')
+
+        if being_delivered == 'T':
+            p.update(being_delivered=True)
+
+        if received == 'T':
+            p.update(received=True)
+
+        if refund_granted == 'T':
+            p.update(refund_granted=True)
+
+        return redirect("/owner/order/")
+    
+        
+        
+
+        
 class orderitems(View):
     def get(self, request,id):
         item = OrderItem.objects.filter(user_id=id)
@@ -162,9 +189,8 @@ class refundUpdate(View):
             r.update(accepted=True)
         return redirect("/owner/refund/")
 
-
-
-
 class AddNEWC(ListView):
+
     model = BillingAddress
     template_name = "owner/billingAddress1.html"
+

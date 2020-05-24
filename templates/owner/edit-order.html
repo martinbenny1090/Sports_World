@@ -1,0 +1,94 @@
+{% extends 'owner/Onav.html'%}
+
+{% block title %} Edit-Order {% endblock %}
+
+{% block content %}
+
+<div class="container">
+        <div class="table-responsive-sm">
+                <form method="POST" action="/owner/edit-order/{{order.id}}">{% csrf_token %}
+                <table class="table table-borderless">
+                      
+                       
+                    <tbody>
+                            <tr> <a type="button" class="btn btn-secondary float-right mx-3" href="/owner/order/"> Back </a></tr>
+                            <tr>
+                                    <td><label> Name of buyer </label></td>
+                                    <td> <input type="text" class="form-control" id="user" name='user' value="{{order.user.first_name}}"> </td> 
+                            </tr>
+                            <tr>
+                                    <td><label> Name of items </label></td>
+                                    <td> <input type="text" class="form-control" id="items" name='items' value="{{order.items}}"> </td> 
+                            </tr>
+                            <tr>
+                                    <td><label> Ordered date  </label></td>
+                                    <td> <input type="text" class="form-control" id="ordered_date" name='ordered_date' value="{{order.ordered_date}}"> </td> 
+                            </tr>
+                            <tr>
+                                    <td><label> Ordered </label></td>
+                                    <td> {% if order.ordered == True %}
+                                            <input type="checkbox" id="vehicle1" disabled="disabled"  name="vehicle1" value="TRue" checked readonly> Ordered</td>
+                                        {% else %}
+                                            <input type="checkbox" id="ordered" name="ordered" disabled="disabled" value="T"  > Ordered</td>
+                                        {% endif %} </td> 
+                            </tr>
+                            <tr>
+                                    <td><label> Reference code </label></td>
+                                    <td> <input type="text" class="form-control" id="ref_code" name='ref_code' value="{{order.ref_code}}"> </td> 
+                            </tr>
+                            <tr>
+                                    <td><label> Billing Address </label></td>
+                                    <td> <input type="text" class="form-control" id="billing_address" name='billing_address' value="{{order.billing_address}}"> </td> 
+                            </tr>
+                            <tr>
+                                    <td><label> Payment </label></td>
+                                    <td> <input type="text" class="form-control" id="payment" name='payment' value="{{order.payment.user.first_name}}"> </td> 
+                            </tr>
+                            <tr>
+                                    <td><label> being_delivered  </label></td>
+                                    <td> {% if order.being_delivered == True %}
+                                            <input type="checkbox" id="vehicle1"  disabled="disabled" name="vehicle1" value="TRue" checked readonly> being_delivered</td>
+                                        {% else %}
+                                            <input type="checkbox" id="being_delivered" name="being_delivered" value="T"  > being_delivered</td>
+                                        {% endif %} </td> 
+                            </tr>
+                            <tr>
+                                    <td><label>  received </label></td>
+                                    <td> {% if order.received == True %}
+                                            <input type="checkbox" id="vehicle1"  disabled="disabled" name="vehicle1" value="TRue" checked readonly> received</td>
+                                        {% else %}
+                                            <input type="checkbox" id="received" name="received" value="T"  > received</td>
+                                        {% endif %} </td> 
+                            </tr>
+                            <tr>
+                                    <td><label> refund_requested </label></td>
+                                    <td> {% if order.refund_requested == True %}
+                                            <input type="checkbox" id="vehicle1"  disabled="disabled" name="vehicle1" value="TRue" checked readonly> refund_requested</td>
+                                        {% else %}
+                                            <input type="checkbox" id="refund_requested" name="refund_requested" value="T"  > refund_requested</td>
+                                        {% endif %} </td> 
+                            </tr>
+                            <tr>
+                                    <td><label> refund_granted </label></td>
+                                    <td> {% if order.refund_granted == True %}
+                                            <input type="checkbox" id="vehicle1"  disabled="disabled" name="vehicle1" value="TRue" checked readonly> refund_granted</td>
+                                        {% else %}
+                                            <input type="checkbox" id="refund_granted" name="refund_granted" value="T"  > refund_granted</td>
+                                        {% endif %} </td> 
+                            </tr>
+                            <tr>
+                                    <td></td>
+                                    <td> <button type="submit" class="btn btn-primary mx-2">Submit</button> </td> 
+                            </tr>
+            
+                    </tbody>
+                
+                </table>
+            </form>
+              </div>
+
+</div>
+
+
+
+{% endblock %}

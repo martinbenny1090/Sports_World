@@ -25,18 +25,44 @@
                 {% for order in orders %}
                   <tr>
                     <th scope="row">{{ forloop.counter }}</th>
-                    <td><a href=""> {{order.user}} </a></td>
+                    <td>{{order.user.first_name}}</td>
                     <td>{{order.ordered_date}}</td>
-                    <td>{{order.ordered}}</td>
+                    <td>
+                    {% if order.ordered == True %}
+                    <input type="checkbox" id="vehicle1" disabled="disabled"  name="vehicle1" value="TRue" checked readonly> </td>
+                    {% else %}
+                    <input type="checkbox" id="eaccepted" name="eaccepted" value="T" disabled="disabled"  >  </td>
+                    {% endif %} </td>
                     <td>{{order.ref_code}}</td>
                     <td>{{order.billing_address}}</td> 
-                    <td>{{order.payment}}</td> 
-                    <td>{{order.being_delivered}}</td> 
-                    <td>{{order.received}}</td> 
-                    <td>{{order.refund_requested}}</td> 
-                    <td>{{order.refund_granted}}</td> 
+                    <td>{{order.payment}}</td>  
+                    <td>
+                        {% if order.being_delivered == True %}
+                        <input type="checkbox" id="vehicle1" disabled="disabled"  name="vehicle1" value="TRue" checked readonly>  </td>
+                        {% else %}
+                        <input type="checkbox" id="eaccepted" name="eaccepted" value="T" disabled="disabled"  >  </td>
+                        {% endif %} </td> 
+                    <td>
+                        {% if order.received == True %}
+                        <input type="checkbox" id="vehicle1" disabled="disabled"  name="vehicle1" value="TRue" checked readonly> </td>
+                        {% else %}
+                        <input type="checkbox" id="eaccepted" name="eaccepted" value="T" disabled="disabled"  > </td>
+                        {% endif %} </td>
+                     
+                    <td>
+                        {% if order.refund_requested == True %}
+                        <input type="checkbox" id="vehicle1" disabled="disabled"  name="vehicle1" value="TRue" checked readonly>  </td>
+                        {% else %}
+                        <input type="checkbox" id="eaccepted" name="eaccepted" value="T" disabled="disabled"  >  </td>
+                        {% endif %} </td>
+                        <td>
+                            {% if order.refund_granted == True %}
+                            <input type="checkbox" id="vehicle1" disabled="disabled"  name="vehicle1" value="TRue" checked readonly>  </td>
+                            {% else %}
+                            <input type="checkbox" id="eaccepted" name="eaccepted" value="T" disabled="disabled"  >  </td>
+                            {% endif %} </td> 
                     <td><a href="{% url 'orderitems' order.user.id %}"> Items </a></td>
-                    <td><a class="btn btn-outline-warning" href="#"> Edit  </a></td>
+                    <td><a class="btn btn-outline-warning" href="{% url 'edit-order' order.id %}"> Edit  </a></td>
                   </tr>
                  
                 {% endfor %}
