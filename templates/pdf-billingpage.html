@@ -2,6 +2,9 @@
 
 {% block css %}
 <style>
+	.table{
+		text-align: center;
+	}
         @page {
             size: a4 portrait;
             @frame header_frame {           /* Static Frame */
@@ -53,9 +56,9 @@
 
     <hr>
 
-    <table>
+    <table class="table">
     	<tr>
- 
+			<th>No</th>
     		<th>Product</th>
     		<th>Price</th>
     		<th>Quantity</th>
@@ -63,7 +66,7 @@
     	</tr>
     	{% for i in order_items %}
     	<tr>
- 
+			<td>{{ forloop.counter }}</td>
     		<td>{{ i.item.title }}</td>
     		<td>{{ i.item.price }}</td>
     		<td>{{ i.quantity }}</td>

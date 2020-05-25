@@ -280,10 +280,21 @@ def add_to_cart(request, slug):
         order = order_qs[0]
         #check if the order item is in the  order
         if order.items.filter(item__slug = item.slug).exists():
-            order_item.quantity += 1
-            order_item.save()
-            messages.info(request, "This item quanditity updated")
-            return redirect("user:order-summary")
+            print(item)
+            print(item.stock)
+            print(order_item.quantity)
+            print("hai")
+            m = item.stock
+            n = order_item.quantity
+            if m > n:
+                order_item.quantity += 1
+                order_item.save()
+                messages.info(request, "This item quanditity updated")
+                return redirect("user:order-summary")
+            else:
+                messages.info(request, "This item quanditity over stock")
+                return redirect("user:order-summary")
+
         else:
             order.items.add(order_item)
             messages.info(request, "This item was added to cart")

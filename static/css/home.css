@@ -4,3 +4,12 @@
 .card{
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
+.col-md-3{
+    display: inline-block;
+    margin-left:-4px;
+        }
+.col-md-3 img{
+
+    width: 227px;
+    height: 242px;
+    }
