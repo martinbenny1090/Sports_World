@@ -2,7 +2,14 @@
 
 {% block content %}
 <div class="container-fluid">
-        <h1>Order </h1>
+    <h1>Order </h1>
+
+    <form  method="get">
+        {{myfilter.form}}
+        <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+      </form>
+
+        
         <table class="table table-borderless">
                 <thead>
                   <tr>

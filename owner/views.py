@@ -5,6 +5,7 @@ from django.views.generic import ListView, DetailView, View
 from django.core.exceptions import ObjectDoesNotExist
 from django.contrib.auth.models import User, auth
 # Create your views here.
+from .filters import OrderFilters
 
 class order_item(View):
     def get(self, request):
@@ -16,9 +17,12 @@ class order(View):
     def get(self, request):
         items = OrderItem.objects.all()
         orders = Order.objects.all()
+        myfilter = OrderFilters(request.GET,queryset=orders)
+        orders = myfilter.qs
         context = {
             'orders': orders,
-            'items': items
+            'items': items,
+            'myfilter': myfilter
         }
         return render(request, "owner/orderlist.html", context)
 
