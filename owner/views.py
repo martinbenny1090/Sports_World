@@ -6,14 +6,17 @@ from django.core.exceptions import ObjectDoesNotExist
 from django.contrib.auth.models import User, auth
 from .filters import OrderFilters, paymentFilters, orderitemsFilters
 from django.contrib import messages
+from datetime import date 
 # Create your views here.
 
     
 def search(request):
     query = request.GET.get('search')
     orders = Order.objects.filter(ref_code=query)
+    m = 0
     for i in orders:
         m=i.id
+
     items = OrderItem.objects.filter(order_id=m)
     
     params = {
@@ -136,7 +139,28 @@ class NewOwner(View):
             return render(request,'owner/owhome.html')
 
 def owhome(request):
-    return render(request, 'owner/owhome.html')
+    
+    count = Refund.objects.all().count()
+    scount = Item.objects.filter(stock=0).count()
+    today = date.today()
+    print(today)
+    ocount = Order.objects.filter(ordered_date__year=today.year, ordered_date__month=today.month, ordered_date__day=today.day ).count()
+    torder = Order.objects.all().count()
+    titem = Item.objects.all().count()
+    tcontact = Contact.objects.all().count()
+    items = Payment.objects.filter(timestamp__year=today.year,timestamp__month=today.month,timestamp__day=today.day).count()
+    Titem = Payment.objects.all().count()
+    param ={
+        'count': count,
+        'scount': scount,
+        'ocount': ocount,
+        'torder': torder,
+        'titem': titem,
+        'tcontact': tcontact,
+        'items': items,
+        'Titem': Titem,
+    }
+    return render(request, 'owner/owhome.html', param)
 
 class ItemView(ListView):
     model = Item

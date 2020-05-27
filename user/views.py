@@ -434,7 +434,7 @@ def search(request):
     return render(request, "search.html", params)
         
 def myorders(request):
-    myitems = Order.objects.filter(user=request.user, refund_requested=False)
+    myitems = Order.objects.filter(user=request.user)
     order = Order.objects.filter(user=request.user, refund_requested=True)
     print(order)
     param = {
