@@ -4,13 +4,38 @@ from user.models import Item, OrderItem, Contact, Order, OrderItem, Payment, Ref
 from django.views.generic import ListView, DetailView, View
 from django.core.exceptions import ObjectDoesNotExist
 from django.contrib.auth.models import User, auth
+from .filters import OrderFilters, paymentFilters, orderitemsFilters
+from django.contrib import messages
 # Create your views here.
-from .filters import OrderFilters
+
+    
+def search(request):
+    query = request.GET.get('search')
+    orders = Order.objects.filter(ref_code=query)
+    for i in orders:
+        m=i.id
+    items = OrderItem.objects.filter(order_id=m)
+    
+    params = {
+        'orders': orders,
+        'items': items
+        }
+    
+
+    rcount=0
+    for i in orders:
+        rcount = 1
+    if rcount == 0 or len(query)<3:
+            messages.warning(request, "Plase make sure to enter the revelant search query No item found")
+            return redirect("/owner/")
+    return render(request, "owner/search.html", params)
 
 class order_item(View):
     def get(self, request):
         items = OrderItem.objects.all()
-        return render(request, "owner/order-items.html", {'items': items})
+        myfilter = orderitemsFilters(request.GET,queryset=items)
+        items = myfilter.qs
+        return render(request, "owner/order-items.html", {'items': items,'myfilter': myfilter })
 
 
 class order(View):
@@ -30,7 +55,15 @@ class edit_order(View):
 
     def get(self, request, id):
         order = Order.objects.get(id=id)
-        return render(self.request, 'owner/edit-order.html', {'order': order})
+        orders = Order.objects.filter(id=id)
+        for i in orders:
+           m=i.id 
+        items = OrderItem.objects.filter(order_id=m)
+        param = {
+            'order': order,
+            'items': items
+        }
+        return render(self.request, 'owner/edit-order.html', param)
 
     def post(self, request, id):
         p = Order.objects.filter(id=id)
@@ -55,7 +88,8 @@ class edit_order(View):
         
 class orderitems(View):
     def get(self, request,id):
-        item = OrderItem.objects.filter(user_id=id)
+        print(id)
+        item = OrderItem.objects.filter(order_id=id)
         if item is not None:
             return render(request, "owner/orderlist-items.html", {'item': item })
         else:
@@ -69,8 +103,17 @@ class contact(View):
 class contactdetails(View):
     def get(self, request, id):
         con = Contact.objects.filter(msg_id=id)
-        return render(request, "owner/contactdetails.html", {'con': con[0]} )
+        return render(request, "owner/Deletecontact.html", {'con': con[0]} )
 
+class Deletecontact(ListView):
+    def get(self,request, id):
+        item = Contact.objects.filter(msg_id=id)
+        return render(self.request, 'owner/Deletecontact.html', {'item': item[0]} )
+
+    def post(self,request, id):
+        item = Contact.objects.filter(msg_id=id)
+        item.delete()
+        return redirect("/owner/contact/")
 
 class NewOwner(View):
     def get(self, *args, **kwargs):
@@ -89,6 +132,7 @@ class NewOwner(View):
         else:    
             user = User.objects.create_user(username=email, password=password1, email=email,first_name=name, is_superuser="True", is_staff="True")
             user.save()
+            messages.info(request,'Sucessfully Registred')
             return render(request,'owner/owhome.html')
 
 def owhome(request):
@@ -113,6 +157,11 @@ class AddNewItem(View):
         slug = request.POST.get('slug', '')
         description = request.POST.get('description', '')
         image = request.FILES['image']
+
+
+        if Item.objects.filter(slug=slug).exists():
+            messages.info(request,'slug id all ready taken')
+            return redirect("/owner/add-new-item/")
 
 
         item = Item(image=image, title=title, price=price, discount_price=discount_price, category=category, stock=stock, slug=slug, description=description)
@@ -173,7 +222,9 @@ class DeleteItem(ListView):
 class payment(View):
     def get(self, request):
         pay = Payment.objects.all()
-        return render(request, "owner/patment.html", {'pays': pay})
+        myfilter = paymentFilters(request.GET,queryset=pay)
+        pay = myfilter.qs
+        return render(request, "owner/patment.html", {'pays': pay, 'myfilter': myfilter})
 
 class refund(View):
     def get(self, request):
@@ -187,9 +238,10 @@ class refundUpdate(View):
 
     def post(self, request, id):
         r = Refund.objects.filter(id=id)
+        
         eaccepted = request.POST.get('eaccepted')
         print(eaccepted)
-        if eaccepted == 'T':
+        if eaccepted =='T':
             r.update(accepted=True)
         return redirect("/owner/refund/")
 

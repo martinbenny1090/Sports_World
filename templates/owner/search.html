@@ -1,0 +1,130 @@
+{% extends 'owner/Onav.html'%}
+
+{% block title %} Search {% endblock %}
+
+{% block css %}
+<style>
+    .row-image{
+        width: 50px;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+
+      
+<div class="container">
+    <table class="table table-borderless">
+        {% for i in orders %}
+        <tr>
+                <td><label> Owner of order </label></td>
+                <td> <input type="text" class="form-control" id="etitle" name='etitle' value="{{i.user.first_name}}"> </td> 
+        </tr>
+        <tr>
+                <td><label> Order items </label></td>
+               
+                <td>  
+                <table>
+                    <th>  </th>
+                    <th> Item </th>
+                    <th> Price </th>
+                    <th> Quantity </th>
+                    <th> Total </th>
+                    {% for a in items %}
+                    <tr>
+                        <td><img class="row-image" src = "{{ a.item.image.url }}"</td>
+                        <td>{{a.item.title}}</td>
+                        <td>
+                            {% if a.item.discount_price %}
+                                {{ a.item.discount_price }}
+                            {% else %}
+                                {{ a.item.price }}
+                            {% endif %}
+
+                        </td>
+                        <td>{{a.quantity}}</td>
+                        
+                        <td>
+                                {{a.get_final_prise}}
+                        </td>
+                       
+
+
+                    </tr>
+                    {% endfor %}
+                </table>
+                </td> 
+        </tr>
+        <tr>
+                <td><label> Order Date </label></td>
+                <td> <input type="text" class="form-control" id="etitle" name='etitle' value="{{i.ordered_date}}"> </td> 
+        </tr>
+        <tr>
+                <td><label> Ordered or Not  </label></td>
+                <td>
+                        {% if i.ordered == True %}
+                        <input type="checkbox" id="vehicle1" name="vehicle1" value="TRue" checked > </td>
+                        {% else %}
+                        <input type="checkbox" id="vehicle1" name="vehicle1" value="" readonly > </td>
+                        {% endif %} 
+                 </td> 
+        </tr>
+        <tr>
+                <td><label> Billing Id </label></td>
+                <td> <input type="text" class="form-control" id="etitle" name='etitle' value="{{i.ref_code}}"> </td> 
+        </tr>
+        <tr>
+                <td><label> Billing Address </label></td>
+                <td> <input type="text" class="form-control" id="etitle" name='etitle' value="{{i.billing_address.user.first_name}}"> </td> 
+        </tr>
+        <tr>
+                <td><label> Payment </label></td>
+                <td> <input type="text" class="form-control" id="etitle" name='etitle' value="{{i.payment.amount}}"> </td> 
+        </tr>
+        <tr>
+                <td><label>  Being Delivered </label></td>
+                <td>
+                        {% if i.being_delivered == True %}
+                        <input type="checkbox" id="vehicle1" name="vehicle1" value="TRue" checked > </td>
+                        {% else %}
+                        <input type="checkbox" id="vehicle1" name="vehicle1" value="" readonly > </td>
+                        {% endif %}
+                 </td> 
+        </tr>
+        <tr>
+                <td><label> Received  </label></td>
+                <td>
+                        {% if i.received == True %}
+                        <input type="checkbox" id="vehicle1" name="vehicle1" value="TRue" checked > </td>
+                        {% else %}
+                        <input type="checkbox" id="vehicle1" name="vehicle1" value="" readonly > </td>
+                        {% endif %}
+                 </td> 
+        </tr>
+        <tr>
+                <td><label> Refund Requested  </label></td>
+                <td> 
+                        {% if i.refund_requested == True %}
+                        <input type="checkbox" id="vehicle1" name="vehicle1" value="TRue" checked > </td>
+                        {% else %}
+                        <input type="checkbox" id="vehicle1" name="vehicle1" value="" readonly > </td>
+                        {% endif %}
+                 </td> 
+        </tr>
+        <tr>
+                <td><label> Refund Granted  </label></td>
+                <td> 
+                        {% if i.refund_granted == True %}
+                        <input type="checkbox" id="vehicle1" name="vehicle1" value="TRue" checked > </td>
+                        {% else %}
+                        <input type="checkbox" id="vehicle1" name="vehicle1" value="" readonly > </td>
+                        {% endif %}
+                 </td> 
+        </tr>
+        {% endfor %}
+    </table>
+
+
+
+</div>
+{% endblock %}

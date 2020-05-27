@@ -1,6 +1,6 @@
 from django.urls import path
 from . import views
-from  owner.views import edit_order, order_item, orderitems, AddNEWC, ItemView,AddNewItem, EditItem, NewOwner, DeleteItem, contact, contactdetails, order, payment, refund, refundUpdate
+from  owner.views import Deletecontact, edit_order, order_item, orderitems, AddNEWC, ItemView,AddNewItem, EditItem, NewOwner, DeleteItem, contact, contactdetails, order, payment, refund, refundUpdate
 
 
 
@@ -21,4 +21,6 @@ urlpatterns = [
     path('orderitems/<int:id>', orderitems.as_view(), name="orderitems"),
     path('orderitemslist/', order_item.as_view(), name="orderitemslist"),
     path('edit-order/<int:id>', edit_order.as_view(), name="edit-order"),
+    path('search/', views.search , name="search"),
+    path('Deletecontact/<int:id>', Deletecontact.as_view(), name="Deletecontact"),
 ]

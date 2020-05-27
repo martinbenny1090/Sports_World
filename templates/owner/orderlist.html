@@ -14,16 +14,16 @@
                 <thead>
                   <tr>
                     <th scope="col">No</th>
-                    <th scope="col">user</th>
-                    <th scope="col">ordered_date</th>
-                    <th scope="col">ordered</th>
-                    <th scope="col">ref_code</th>
+                    <th scope="col">User</th>
+                    <th scope="col">Ordered_date</th>
+                    <th scope="col">Ordered</th>
+                    <th scope="col">Reference Code</th>
                     <th scope="col">billing_address</th>
                     <th scope="col">payment</th>
-                    <th scope="col">being_delivered</th>
-                    <th scope="col">received</th>
-                    <th scope="col">refund_requested</th>
-                    <th scope="col">refund_granted</th>
+                    <th scope="col">Being Delivered</th>
+                    <th scope="col">Delivered</th>
+                    <th scope="col">Refund Requested</th>
+                    <th scope="col">Refund Given</th>
                     <th scope="col">Items</th>
                   
                   </tr>
@@ -68,7 +68,7 @@
                             {% else %}
                             <input type="checkbox" id="eaccepted" name="eaccepted" value="T" disabled="disabled"  >  </td>
                             {% endif %} </td> 
-                    <td><a href="{% url 'orderitems' order.user.id %}"> Items </a></td>
+                    <td><a href="{% url 'orderitems' order.id %}"> Items </a></td>
                     <td><a class="btn btn-outline-warning" href="{% url 'edit-order' order.id %}"> Edit  </a></td>
                   </tr>
                  

@@ -2,6 +2,9 @@
 
 {% block css %} 
 <style>
+    .row-image{
+        width: 50px;
+    }
     .container {
         
         margin-left: 200px;
@@ -10,15 +13,16 @@
 {% endblock %}
 
 
+
 {% block content %}
 
 <div class="container">
-        <a type="button" class="btn btn-secondary  mx-3" href="/owner/order/"> Back </a>
         <div class="table-responsive">
             <table class="table table-borderless">
                     <thead>
                             <tr>
                               <th scope="col">No</th>
+                              <th scope="col"> </th>
                               <th scope="col">Item</th>
                               <th scope="col">Quality</th>
                               <th scope="col">Buying Date</th>
@@ -29,6 +33,7 @@
                        {% for i in item  %}
                        <tr>
                             <th scope="row">{{ forloop.counter }}</th>
+                            <th><img class="row-image" src = "{{ i.item.image.url }}"</th>
                             <th>{{ i.item }}</th>
                             <th>{{ i.quantity }}</th>
                             <th>{{ i.AddedDate }}</th>
@@ -38,9 +43,11 @@
                            <td colspan="5"> You have no Item purchase   </td>
                        </tr>
                        {% endfor %}
-                      
+                       
                 </tbody>
+                
               </table>
+              <a type="button" class="btn btn-secondary  mx-3 float-right" href="/owner/order/"> Back </a>
           </div>
     </div>
 {% endblock %}

@@ -2,6 +2,14 @@
 
 {% block title %} Edit-Order {% endblock %}
 
+{% block css %}
+<style>
+    .row-image{
+        width: 50px;
+    }
+</style>
+{% endblock %}
+
 {% block content %}
 
 <div class="container">
@@ -18,7 +26,35 @@
                             </tr>
                             <tr>
                                     <td><label> Name of items </label></td>
-                                    <td> <input type="text" class="form-control" id="items" name='items' value="{{order.items}}"> </td> 
+                                    <td> 
+                                                <table>
+                                                                <th>  </th>
+                                                                <th> Item </th>
+                                                                <th> Price </th>
+                                                                <th> Quantity </th>
+                                                        
+                                                                {% for a in items %}
+                                                                <tr>
+                                                                    <td><img class="row-image" src = "{{ a.item.image.url }}"</td>
+                                                                    <td>{{a.item.title}}</td>
+                                                                    <td>
+                                                                        {% if a.item.discount_price %}
+                                                                            {{ a.item.discount_price }}
+                                                                        {% else %}
+                                                                            {{ a.item.price }}
+                                                                        {% endif %}
+                                            
+                                                                    </td>
+                                                                    <td>{{a.quantity}}</td>
+                                                                    
+                                                                
+                                                                   
+                                            
+                                            
+                                                                </tr>
+                                                                {% endfor %}
+                                                            </table>      
+                                    </td> 
                             </tr>
                             <tr>
                                     <td><label> Ordered date  </label></td>
@@ -45,33 +81,33 @@
                                     <td> <input type="text" class="form-control" id="payment" name='payment' value="{{order.payment.user.first_name}}"> </td> 
                             </tr>
                             <tr>
-                                    <td><label> being_delivered  </label></td>
+                                    <td><label> Being_delivered  </label></td>
                                     <td> {% if order.being_delivered == True %}
-                                            <input type="checkbox" id="vehicle1"  disabled="disabled" name="vehicle1" value="TRue" checked readonly> being_delivered</td>
+                                            <input type="checkbox" id="vehicle1"  disabled="disabled" name="vehicle1" value="TRue" checked readonly> Being_delivered</td>
                                         {% else %}
-                                            <input type="checkbox" id="being_delivered" name="being_delivered" value="T"  > being_delivered</td>
+                                            <input type="checkbox" id="being_delivered" name="being_delivered" value="T"  > Being_delivered</td>
                                         {% endif %} </td> 
                             </tr>
                             <tr>
-                                    <td><label>  received </label></td>
+                                    <td><label>  Delivered </label></td>
                                     <td> {% if order.received == True %}
-                                            <input type="checkbox" id="vehicle1"  disabled="disabled" name="vehicle1" value="TRue" checked readonly> received</td>
+                                            <input type="checkbox" id="vehicle1"  disabled="disabled" name="vehicle1" value="TRue" checked readonly> Delivered</td>
                                         {% else %}
-                                            <input type="checkbox" id="received" name="received" value="T"  > received</td>
+                                            <input type="checkbox" id="received" name="received" value="T"  > Delivered</td>
                                         {% endif %} </td> 
                             </tr>
                             <tr>
-                                    <td><label> refund_requested </label></td>
+                                    <td><label> Refund Requested </label></td>
                                     <td> {% if order.refund_requested == True %}
-                                            <input type="checkbox" id="vehicle1"  disabled="disabled" name="vehicle1" value="TRue" checked readonly> refund_requested</td>
+                                            <input type="checkbox" id="vehicle1"  disabled="disabled" name="vehicle1" value="TRue" checked readonly> Refund Requested</td>
                                         {% else %}
-                                            <input type="checkbox" id="refund_requested" name="refund_requested" value="T"  > refund_requested</td>
+                                            <input type="checkbox" id="refund_requested" name="refund_requested" value="T"  > Refund Requested</td>
                                         {% endif %} </td> 
                             </tr>
                             <tr>
-                                    <td><label> refund_granted </label></td>
+                                    <td><label> Refund Given </label></td>
                                     <td> {% if order.refund_granted == True %}
-                                            <input type="checkbox" id="vehicle1"  disabled="disabled" name="vehicle1" value="TRue" checked readonly> refund_granted</td>
+                                            <input type="checkbox" id="vehicle1"  disabled="disabled" name="vehicle1" value="TRue" checked readonly> Refund Given</td>
                                         {% else %}
                                             <input type="checkbox" id="refund_granted" name="refund_granted" value="T"  > refund_granted</td>
                                         {% endif %} </td> 

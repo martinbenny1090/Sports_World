@@ -1,0 +1,26 @@
+{% extends 'owner/Onav.html'%}
+{% block css %}
+<style>
+    .red{
+        padding-right: 20px;
+        padding-left: 20px;
+        margin-left: 15px;
+    }
+
+</style> 
+{% endblock %}
+{% block content %}
+<div class="container">
+    <div class="row">
+        <form action="{% url 'Deletecontact' item.msg_id %}" method="POST"> {% csrf_token %}
+            <div class="row">
+                <div class="column">
+                <h4> Do you want to delete {{ item.user.firts_name }} ...?</h4></div>
+                <div class="column">
+                <button type="submit" class="btn btn-danger red">Delete</button>
+                <a href="/owner/contact/" type="submit" class="btn btn-secondary red">Cancle</a></div>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}

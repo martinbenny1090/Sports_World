@@ -11,7 +11,11 @@
 {% endblock %}
 
 {% block content %}
-<div class="container">
+<div class="container-fluid">
+    <form  method="get">
+        {{myfilter.form}}
+        <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+      </form>
     <div class="table-responsive">
       <h4>Order Items list</h4>
         <table class="table table-borderless">
@@ -29,7 +33,7 @@
                 {% for item in items %}
                   <tr>
                     <th scope="row">{{ forloop.counter }}</th>
-                    <td>{{item.user}}</td>
+                    <td>{{item.user.first_name}}</td>
                     <td>{{item.ordered}}</td>
                     <td>{{item.item}}</td>
                     <td>{{item.quantity}}</td>

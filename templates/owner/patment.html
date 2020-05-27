@@ -1,8 +1,12 @@
 {% extends 'owner/Onav.html'%}
 
 {% block content %}
-<div class="container">
+<div class="container-fluid">
         <div class="table-responsive">
+            <form  method="get">
+                {{myfilter.form}}
+                <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+              </form>
                 <table class="table table-borderless">
                         <thead>
                                 <tr>
