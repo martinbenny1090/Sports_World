@@ -16,7 +16,7 @@ from django.template.loader import get_template
 from django.views import View
 from xhtml2pdf import pisa
 import win32api
-
+from django.views import View
 import random
 import string
 stripe.api_key = 'sk_test_S3eXvxJrVCROKaPdNikrD15300UsFQvwPS'

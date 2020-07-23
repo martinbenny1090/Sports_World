@@ -1,6 +1,7 @@
 from django.urls import path
 from . import views 
-from  user.views import billingpage, ViewPDF, About_as, HomeView, ItemDetailView, OrderSummaryView, CheckoutView, paymentView, RequestRefundView
+from user.views import HomeView, CheckoutView, OrderSummaryView,ItemDetailView,paymentView,RequestRefundView,About_as,billingpage,ViewPDF
+from django.views.generic import ListView, DetailView
 
 app_name = 'user'
 urlpatterns = [
