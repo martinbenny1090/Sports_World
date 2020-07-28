@@ -12,7 +12,7 @@
 {% block content %}
 <div class="container">
     <div class="row">
-        <form action="{% url 'Deletecontact' item.msg_id %}" method="POST"> {% csrf_token %}
+        <form action="{% url 'owner:Deletecontact' item.msg_id %}" method="POST"> {% csrf_token %}
             <div class="row">
                 <div class="column">
                 <h4> Do you want to delete {{ item.user.firts_name }} ...?</h4></div>

@@ -18,11 +18,11 @@
             {% for i in con %}
               <tr>
                 <th scope="row">{{ forloop.counter }}</th>
-                <td><a href="{% url 'contactdetails' i.msg_id %}"> {{ i.name }} </a></td>
+                <td><a href="{% url 'owner:contactdetails' i.msg_id %}"> {{ i.name }} </a></td>
                 <td>{{i.email}}</td>
                 <td>{{i.phone}}</td>
                 <td>{{i.desc|slice:"0:10"}}...</td>
-                <td><a class="btn btn-outline-danger" href="{% url 'Deletecontact' i.msg_id %}"> Delete  </a></td>
+                <td><a class="btn btn-outline-danger" href="{% url 'owner:Deletecontact' i.msg_id %}"> Delete  </a></td>
               </tr>
             {% endfor %}
             </tbody>

@@ -42,6 +42,8 @@ INSTALLED_APPS = [
     'accounts',
     'user',
     'stripe',
+    'owner',
+    
 ]
 
 MIDDLEWARE = [

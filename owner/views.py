@@ -8,7 +8,10 @@ from .filters import OrderFilters, paymentFilters, orderitemsFilters
 from django.contrib import messages
 from datetime import date 
 # Create your views here.
-
+from io import BytesIO
+from django.template.loader import get_template
+from django.views import View
+from xhtml2pdf import pisa
     
 def search(request):
     query = request.GET.get('search')
@@ -41,18 +44,64 @@ class order_item(View):
         return render(request, "owner/order-items.html", {'items': items,'myfilter': myfilter })
 
 
-class order(View):
+def render_to_pdf(template_src, context_dict={}):
+	template = get_template(template_src)
+	html  = template.render(context_dict)
+	result = BytesIO()
+	pdf = pisa.pisaDocument(BytesIO(html.encode("ISO-8859-1")), result)
+	if not pdf.err:
+		return HttpResponse(result.getvalue(), content_type='application/pdf')
+	return None
+
+
+#Opens up page as PDF
+class VieworderPDF(View):
+
     def get(self, request):
         items = OrderItem.objects.all()
         orders = Order.objects.all()
         myfilter = OrderFilters(request.GET,queryset=orders)
-        orders = myfilter.qs
+        orders = myfilter.qs 
         context = {
             'orders': orders,
             'items': items,
             'myfilter': myfilter
         }
+        
+
+        
+        data = {
+        "company": "Sports World",
+
+        "website": "Sports World",
+        "email": "martin8086benny@gmail.com",
+        "phone": "+91-9475843265",
+        "zipcode": "686581",
+        
+        }
+
+        pdf = render_to_pdf('owner/pdf-orderlist.html', context)
+        return HttpResponse(pdf, content_type='application/pdf')
+
+
+
+class order(View):
+    def get(self, request):
+       
+        items = OrderItem.objects.all()
+        orders = Order.objects.all()
+        myfilter = OrderFilters(request.GET,queryset=orders)
+        orders = myfilter.qs 
+        context = {
+            'orders': orders,
+            'items': items,
+            'myfilter': myfilter
+        }
+        
+
         return render(request, "owner/orderlist.html", context)
+        pdf = render_to_pdf('owner/pdf-orderlist.html', context)
+        return HttpResponse(pdf, content_type='application/pdf')
 
 class edit_order(View):
 
@@ -85,10 +134,9 @@ class edit_order(View):
 
         return redirect("/owner/order/")
     
-        
-        
-
-        
+  
+     
+ 
 class orderitems(View):
     def get(self, request,id):
         print(id)
@@ -97,7 +145,8 @@ class orderitems(View):
             return render(request, "owner/orderlist-items.html", {'item': item })
         else:
             messages.warning(self.request, "You do not have any order items")    
-            return redirect("/owner/order/")
+            return redirect("owner:order")
+
 class contact(View):
     def get(self, request):
         con = Contact.objects.all()
@@ -106,7 +155,7 @@ class contact(View):
 class contactdetails(View):
     def get(self, request, id):
         con = Contact.objects.filter(msg_id=id)
-        return render(request, "owner/Deletecontact.html", {'con': con[0]} )
+        return render(request, "owner/contactdetails.html", {'con': con[0]} )
 
 class Deletecontact(ListView):
     def get(self,request, id):
@@ -116,7 +165,7 @@ class Deletecontact(ListView):
     def post(self,request, id):
         item = Contact.objects.filter(msg_id=id)
         item.delete()
-        return redirect("/owner/contact/")
+        return redirect("owner:contact")
 
 class NewOwner(View):
     def get(self, *args, **kwargs):
@@ -130,7 +179,7 @@ class NewOwner(View):
         if User.objects.filter(username=email).exists():
             # print('user taken')
             messages.info(request,'E-mail Id already using')
-            return redirect('register')
+            return redirect('owner:NewOwner')
 
         else:    
             user = User.objects.create_user(username=email, password=password1, email=email,first_name=name, is_superuser="True", is_staff="True")
@@ -140,16 +189,35 @@ class NewOwner(View):
 
 def owhome(request):
     
-    count = Refund.objects.all().count()
+   
     scount = Item.objects.filter(stock=0).count()
     today = date.today()
+    count = Refund.objects.filter(date__day=today.day).count()
+    rcount = Refund.objects.all().count()
+
     print(today)
-    ocount = Order.objects.filter(ordered_date__year=today.year, ordered_date__month=today.month, ordered_date__day=today.day ).count()
-    torder = Order.objects.all().count()
+    ocount = Order.objects.filter(ordered_date__year=today.year, ordered_date__month=today.month, ordered_date__day=today.day,ordered=True).count()
+    torder = Order.objects.filter(ordered=True).count()
     titem = Item.objects.all().count()
     tcontact = Contact.objects.all().count()
     items = Payment.objects.filter(timestamp__year=today.year,timestamp__month=today.month,timestamp__day=today.day).count()
     Titem = Payment.objects.all().count()
+    USCount = User.objects.filter(is_superuser=False).count()
+
+    #total stock
+    Iall = Item.objects.all()
+    stockTotal = 0
+    for i in Iall:
+        stockTotal += i.stock
+     
+    #items sell today
+    Isell = OrderItem.objects.filter(AddedDate__day=today.day,AddedDate__month=today.month,AddedDate__year=today.year)
+    items_selling_today=0
+    for i in Isell:
+        items_selling_today += i.quantity
+    
+    
+    
     param ={
         'count': count,
         'scount': scount,
@@ -159,6 +227,10 @@ def owhome(request):
         'tcontact': tcontact,
         'items': items,
         'Titem': Titem,
+        'rcount': rcount,
+        'USCount': USCount,
+        'stockTotal': stockTotal,
+        'items_selling_today': items_selling_today,
     }
     return render(request, 'owner/owhome.html', param)
 
@@ -226,7 +298,8 @@ class EditItem(ListView):
         m.save()
         m.image = eimage
         m.save()
-        return redirect("/owner/itemview/")
+        return redirect("owner:itemview")
+        
 
 class DeleteItem(ListView):
     def get(self,request, id):

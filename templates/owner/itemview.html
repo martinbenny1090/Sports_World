@@ -35,10 +35,10 @@
                 <td>{{ item.image }}</td>
                 <td>{{ item.description|slice:"0:53" }}..</td>
                 <!-- <a href="/shopping/products/{{i.id}}"><button id="qv{{i.id}}" class="btn btn-primary cart">QuickView</button> -->
-                <td><a class="btn btn-outline-warning" href="{% url 'edit-item' item.id %}"> Edit  </a></td>
-                <td><a class="btn btn-outline-danger" href="{% url 'DeleteItem' item.id %}"> Delete  </a></td>
+                <td><a class="btn btn-outline-warning" href="{% url 'owner:edit-item' item.id %}"> Edit  </a></td> 
+                <td><a class="btn btn-outline-danger" href="{% url 'owner:DeleteItem' item.id %}"> Delete  </a></td>
               </tr>
-              {% empty %}
+              {% empty %}    
                  <tr>
                      <td colspan="5"> you have no items to see  </td>
                  </tr>

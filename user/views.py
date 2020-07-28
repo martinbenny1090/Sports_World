@@ -261,7 +261,7 @@ class HomeView(ListView):
     model = Item
     paginate_by = 8
     template_name = "home.html"
-
+ 
 class ItemDetailView(DetailView):
     model = Item
     template_name = "product.html"
@@ -397,7 +397,7 @@ class RequestRefundView(View):
 
             # store the refund
             refund = Refund()
-            refund.order = order 
+            refund.order = order  
             refund.reason = email
             refund.email = message
             refund.save()
@@ -497,8 +497,8 @@ class ViewPDF(View):
         "email": "martin8086benny@gmail.com",
         "phone": "+91-9475843265",
         "zipcode": "686581",
-        "d": d,
-        "order_items": order_items,
+        "d": d, 
+        "order_items": order_items, 
         }
 
         pdf = render_to_pdf('pdf-billingpage.html', data)

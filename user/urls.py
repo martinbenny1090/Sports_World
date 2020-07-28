@@ -2,7 +2,7 @@ from django.urls import path
 from . import views 
 from user.views import HomeView, CheckoutView, OrderSummaryView,ItemDetailView,paymentView,RequestRefundView,About_as,billingpage,ViewPDF
 from django.views.generic import ListView, DetailView
-
+ 
 app_name = 'user'
 urlpatterns = [
     path('', HomeView.as_view(), name="home"),
@@ -14,7 +14,7 @@ urlpatterns = [
     path('remove-item-from-cart/<slug>', views.remove_single_item_from_cart, name="remove-single-item-from-cart"),
     path('contact', views.contact, name="contact"),
     path('payment/<payment_option>/', paymentView.as_view(), name="payment"),
-    path('request-refund/', RequestRefundView.as_view(), name='request-refund'),
+    path('request-refund/', RequestRefundView.as_view(), name='request-refund'), 
     path('About-As', About_as.as_view(), name="About-As"),
     path('myorders/', views.myorders, name='myorders'),
     path('myorderItemsView/<id>', views.myorderItemsView, name='myorderItemsView'),
