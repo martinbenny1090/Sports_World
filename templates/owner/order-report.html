@@ -8,13 +8,16 @@
 {% block content %}
 <div class="container-fluid">
     
-    <h1 style="text-align: center;">Order List</h1>
+    
 <div class="row text-center">
+      
   <div class="col-md-12">
+      <h1 style="text-align: center;">Order List</h1>
     <form  method="get">
         {{myfilter.form}}
         <button  class="btn btn-outline-success my-2 my-sm-0" type="submit"  >Search</button>
-        <a href="{% url 'owner:order_report' %}"><button type="button" class="btn btn-outline-info" style="float: right;">Export TO PDF</button></a>
+        <button type="button" class="btn btn-outline-info" style="float: right;" id="btnExport" value="Export">Download PDF</button>
+        <!-- <input type="button" id="btnExport" value="Export" /> -->
         
       </form>
       
@@ -25,6 +28,7 @@
         
         <table class="table table-borderless" id="tblCustomers">
                 <thead>
+                
                   <tr>
                     <th scope="col">No</th>
                     <th scope="col">User</th>
@@ -37,7 +41,6 @@
                     <th scope="col">Delivered</th>
                     <th scope="col">Refund Requested</th>
                     <th scope="col">Refund Given</th>
-                    <th scope="col">Items</th>
                   
                   </tr>
                 </thead> 
@@ -81,8 +84,7 @@
                             {% else %}
                             <input type="checkbox" id="eaccepted" name="eaccepted" value="T" disabled="disabled"  >  </td>
                             {% endif %} </td> 
-                    <td><a href="{% url 'owner:orderitems' order.id %}"> Items </a></td>
-                    <td><a class="btn btn-outline-warning" href="{% url 'owner:edit-order' order.id %}"> Edit  </a></td>
+                    
                   </tr>
                  
                 {% endfor %}
@@ -93,8 +95,27 @@
 {% endblock %}
 
 {% block js %}
+<script src="/static/js/tableHTMLExport.js"></script>
 <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.22/pdfmake.min.js"></script>
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.4.1/jspdf.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/2.3.5/jspdf.plugin.autotable.min.js"></script>
 
+<script type="text/javascript">
+  $("body").on("click", "#btnExport", function () {
+      html2canvas($('#tblCustomers')[0], {
+          onrendered: function (canvas) {
+              var data = canvas.toDataURL();
+              var docDefinition = {
+                  content: [{
+                      image: data,
+                      width: 500
+                  }]
+              };
+              pdfMake.createPdf(docDefinition).download("Order-details.pdf");
+          }
+      });
+  });
+</script>
 {% endblock %}

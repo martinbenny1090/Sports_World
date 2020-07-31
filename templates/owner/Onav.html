@@ -36,11 +36,20 @@
       <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse" id="navbarTogglerDemo01">
-      <a class="navbar-brand" href="/owner/itemview/">product View</a>
-      <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+      
+        <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
         <li class="nav-item active">
           <a class="nav-link" href="/owner/">Home <span class="sr-only"></span></a>
         </li>
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            Item
+          </a>
+          <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+            <a class="dropdown-item" href="/owner/itemview/">Detail View</a>
+            <a class="dropdown-item" href="/owner/owner_item_view/">User View</a>
+          </div>
+          
         <li class="nav-item">
           <a class="nav-link" href="/owner/NewOwner/">Add Owner</a>
         </li>
@@ -62,7 +71,8 @@
      </li>
      <li class="nav-item">
       <a class="nav-link" href="/owner/refund/">Refund - Request</a>
-</li>
+    </li>
+    
       </ul>
       <form method="get" action="/owner/search/" class="form-inline my-2 my-lg-0">
         <input class="form-control mr-sm-2" type="search" placeholder="Enter a Order id" aria-label="Search" name="search" id="search">

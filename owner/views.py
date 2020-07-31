@@ -12,6 +12,24 @@ from io import BytesIO
 from django.template.loader import get_template
 from django.views import View
 from xhtml2pdf import pisa
+
+class order_report(View):
+    def get(self, request):
+        items = OrderItem.objects.all()
+        orders = Order.objects.all()
+        myfilter = OrderFilters(request.GET,queryset=orders)
+        orders = myfilter.qs 
+        context = {
+            'orders': orders,
+            'items': items,
+            'myfilter': myfilter
+        }
+        return render( request, "owner/order-report.html", context)
+
+class owner_item_view(ListView):
+    model = Item 
+    paginate_by = 8
+    template_name = "owner/owner-item-view.html"
     
 def search(request):
     query = request.GET.get('search')
@@ -44,44 +62,6 @@ class order_item(View):
         return render(request, "owner/order-items.html", {'items': items,'myfilter': myfilter })
 
 
-def render_to_pdf(template_src, context_dict={}):
-	template = get_template(template_src)
-	html  = template.render(context_dict)
-	result = BytesIO()
-	pdf = pisa.pisaDocument(BytesIO(html.encode("ISO-8859-1")), result)
-	if not pdf.err:
-		return HttpResponse(result.getvalue(), content_type='application/pdf')
-	return None
-
-
-#Opens up page as PDF
-class VieworderPDF(View):
-
-    def get(self, request):
-        items = OrderItem.objects.all()
-        orders = Order.objects.all()
-        myfilter = OrderFilters(request.GET,queryset=orders)
-        orders = myfilter.qs 
-        context = {
-            'orders': orders,
-            'items': items,
-            'myfilter': myfilter
-        }
-        
-
-        
-        data = {
-        "company": "Sports World",
-
-        "website": "Sports World",
-        "email": "martin8086benny@gmail.com",
-        "phone": "+91-9475843265",
-        "zipcode": "686581",
-        
-        }
-
-        pdf = render_to_pdf('owner/pdf-orderlist.html', context)
-        return HttpResponse(pdf, content_type='application/pdf')
 
 
 
@@ -98,10 +78,8 @@ class order(View):
             'myfilter': myfilter
         }
         
-
         return render(request, "owner/orderlist.html", context)
-        pdf = render_to_pdf('owner/pdf-orderlist.html', context)
-        return HttpResponse(pdf, content_type='application/pdf')
+        
 
 class edit_order(View):
 
@@ -239,7 +217,7 @@ class ItemView(ListView):
     paginate_by = 8
     template_name = "owner/itemview.html"
     # ordering = ['-']
-
+    # def get(self) 
 class AddNewItem(View):
     def get(self, request):
         return render(request, 'owner/AddNewItem.html')

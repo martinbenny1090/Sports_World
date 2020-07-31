@@ -258,7 +258,7 @@ class OrderSummaryView(LoginRequiredMixin, View):
             return redirect("/")
 
 class HomeView(ListView):
-    model = Item
+    model = Item 
     paginate_by = 8
     template_name = "home.html"
  
